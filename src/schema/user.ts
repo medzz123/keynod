@@ -24,6 +24,7 @@ const userSchema = gql`
     username: String!
     email: String!
     role: String
+    messages: [Message!]
   }
 `;
 
