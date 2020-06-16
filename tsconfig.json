@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "typeRoots": ["./node_modules/@types", "./src/typings"],
+    "resolveJsonModule": true
+  },
+  "lib": ["es6"],
+  "include": ["src/"],
+  "exclude": ["node_modules", "dist"]
+}
