@@ -3,9 +3,9 @@ import models from "../models";
 export const createUsersWithMessages = async (date) => {
   await models.User.create(
     {
-      username: "rwieruch",
+      username: "ugendo",
       email: "hello@robin.com",
-      password: "rwieruch",
+      password: "ugendo12",
       role: "ADMIN",
       messages: [
         {
@@ -21,9 +21,10 @@ export const createUsersWithMessages = async (date) => {
 
   await models.User.create(
     {
-      username: "ddavids",
+      username: "bugendo",
       email: "hello@david.com",
-      password: "ddavids",
+      password: "bugendo12",
+      role: "USER",
       messages: [
         {
           text: "Happy to release ...",

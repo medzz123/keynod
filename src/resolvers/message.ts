@@ -3,8 +3,8 @@ import Sequelize from "sequelize";
 
 import { isAuthenticated, isMessageOwner } from "./authorization";
 
-const toCursorHash = (string) => Buffer.from(string).toString("base64");
-const fromCursorHash = (string) =>
+const toCursorHash = (string: string) => Buffer.from(string).toString("base64");
+const fromCursorHash = (string: string) =>
   Buffer.from(string, "base64").toString("ascii");
 
 export default {
@@ -39,6 +39,9 @@ export default {
     },
     message: async (parent, { id }, { models }) => {
       return await models.Message.findByPk(id);
+    },
+    pingMessage: async (parent, args, context, info) => {
+      return "Hi";
     },
   },
 

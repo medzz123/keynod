@@ -12,6 +12,8 @@ import loaders from "./loaders";
 import env from "./env";
 import { formatError, getMe } from "./utils";
 import { createUsersWithMessages } from "./seed";
+import ObjectAuthDirective from "./directives/ObjectAuthDirective";
+import FieldAuthDirective from "./directives/FieldAuthDirective";
 
 const app = express();
 
@@ -22,6 +24,10 @@ const server = new ApolloServer({
   introspection: true,
   playground: true,
   tracing: env.DEBUG,
+  schemaDirectives: {
+    objectAuth: ObjectAuthDirective,
+    fieldAuth: FieldAuthDirective,
+  },
   formatError,
   // @ts-ignore
   resolvers,
@@ -52,14 +58,16 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: "/graphql" });
 
-sequelize.sync({ force: env.IS_TEST || env.IS_PRODUCTION }).then(async () => {
-  if (env.IS_TEST || env.IS_PRODUCTION) {
-    createUsersWithMessages(new Date());
-  }
+sequelize
+  .sync({ force: env.IS_TEST || env.IS_PRODUCTION || env.RESET_DB })
+  .then(async () => {
+    if (env.IS_TEST || env.IS_PRODUCTION || env.RESET_DB) {
+      createUsersWithMessages(new Date());
+    }
 
-  app.listen({ port: env.PORT }, () => {
-    console.log(
-      `Apollo Server running on http://localhost:${env.PORT}/graphql`
-    );
+    app.listen({ port: env.PORT }, () => {
+      console.log(
+        `Apollo Server running on http://localhost:${env.PORT}/graphql`
+      );
+    });
   });
-});

@@ -4,6 +4,8 @@ const messageSchema = gql`
   extend type Query {
     messages(cursor: String, limit: Int): MessageConnection!
     message(id: ID!): Message!
+    pingMessage: String! @fieldAuth(requires: ADMIN)
+    readMessage: String! @fieldAuth(requires: USER)
   }
 
   extend type Mutation {
