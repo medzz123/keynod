@@ -12,8 +12,7 @@ import loaders from "./loaders";
 import env from "./env";
 import { formatError, getMe } from "./utils";
 import { createUsersWithMessages } from "./seed";
-import ObjectAuthDirective from "./directives/ObjectAuthDirective";
-import FieldAuthDirective from "./directives/FieldAuthDirective";
+import AuthDirective from "./directives/AuthorizationDirective";
 
 const app = express();
 
@@ -25,8 +24,7 @@ const server = new ApolloServer({
   playground: true,
   tracing: env.DEBUG,
   schemaDirectives: {
-    objectAuth: ObjectAuthDirective,
-    fieldAuth: FieldAuthDirective,
+    auth: AuthDirective,
   },
   formatError,
   // @ts-ignore

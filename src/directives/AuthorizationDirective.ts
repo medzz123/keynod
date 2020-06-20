@@ -1,24 +1,27 @@
 import { SchemaDirectiveVisitor } from "apollo-server";
 import { defaultFieldResolver } from "graphql";
-import strategies from "../strategies";
+import { isRole } from "../auth";
 
-class ObjectAuthDirective extends SchemaDirectiveVisitor {
+class AuthDirective extends SchemaDirectiveVisitor {
   visitObject(type) {
-    console.log("ObjectAuthDirective:visitObject", { type });
     this.ensureFieldsWrapped(type);
     type._requiredAuthRole = this.args.requires;
+  }
+  // Visitor methods for nested types like fields and arguments
+  // also receive a details object that provides information about
+  // the parent and grandparent types.
+  visitFieldDefinition(field, details) {
+    this.ensureFieldsWrapped(details.objectType);
+    field._requiredAuthRole = this.args.requires;
   }
 
   ensureFieldsWrapped(objectType) {
     // Mark the GraphQLObjectType object to avoid re-wrapping:
+
     if (objectType._authFieldsWrapped) return;
     objectType._authFieldsWrapped = true;
 
     const fields = objectType.getFields();
-    console.log("ObjectAuthDirective:ensureFieldsWrapped", {
-      objectType,
-      fields,
-    });
 
     Object.keys(fields).forEach((fieldName) => {
       const field = fields[fieldName];
@@ -29,26 +32,27 @@ class ObjectAuthDirective extends SchemaDirectiveVisitor {
         const requiredRole =
           field._requiredAuthRole || objectType._requiredAuthRole;
 
+        console.log("Field", JSON.stringify(field));
+
+        console.log("-----------------------");
+
+        console.log("Field", field);
+
+        // console.log("Args", args);
+
         if (!requiredRole) {
-          // Let's be on the safe side
-          throw new Error("not authorized");
+          return resolve.apply(this, args);
         }
 
-        const requestData = args[2];
-        await this.executeStrategy(requiredRole, requestData);
+        const context = args[2];
+        const params = args[1];
+
+        isRole(params, context, requiredRole);
 
         return resolve.apply(this, args);
-      }.bind(this);
+      };
     });
-  }
-
-  async executeStrategy(role, requestData) {
-    const strategyResult = await strategies[role.toLowerCase()](requestData);
-
-    if (!strategyResult) {
-      throw new Error("not authorized");
-    }
   }
 }
 
-export default ObjectAuthDirective;
+export default AuthDirective;

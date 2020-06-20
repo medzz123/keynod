@@ -41,7 +41,10 @@ export default {
       return await models.Message.findByPk(id);
     },
     pingMessage: async (parent, args, context, info) => {
-      return "Hi";
+      return "Ping Message";
+    },
+    readMessage: async (parent, args, context, info) => {
+      return "Read Message";
     },
   },
 

@@ -4,12 +4,20 @@ import userSchema from "./user";
 import messageSchema from "./message";
 
 const linkSchema = gql`
-  directive @objectAuth(requires: Role = ADMIN) on OBJECT
-  directive @fieldAuth(requires: Role = ADMIN) on FIELD_DEFINITION
+  directive @auth(
+    requires: Role = ADMIN
+    type: Type = ROLE
+  ) on OBJECT | FIELD_DEFINITION
 
   enum Role {
     ADMIN
     USER
+    GUEST
+  }
+
+  enum Type {
+    ROLE
+    IS_MESSAGE_OWNER
   }
 
   scalar Date
