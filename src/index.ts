@@ -54,18 +54,16 @@ const server = new ApolloServer({
   },
 });
 
-server.applyMiddleware({ app, path: "/graphql" });
+server.applyMiddleware({ app, path: "/" });
 
 sequelize
   .sync({ force: env.IS_TEST || env.IS_PRODUCTION || env.RESET_DB })
   .then(async () => {
     if (env.IS_TEST || env.IS_PRODUCTION || env.RESET_DB) {
-      createUsersWithMessages(new Date());
+      createUsersWithMessages();
     }
 
     app.listen({ port: env.PORT }, () => {
-      console.log(
-        `Apollo Server running on http://localhost:${env.PORT}/graphql`
-      );
+      console.log(`Apollo Server running on http://localhost:${env.PORT}/`);
     });
   });

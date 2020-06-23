@@ -32,14 +32,6 @@ class AuthDirective extends SchemaDirectiveVisitor {
         const requiredRole =
           field._requiredAuthRole || objectType._requiredAuthRole;
 
-        console.log("Field", JSON.stringify(field));
-
-        console.log("-----------------------");
-
-        console.log("Field", field);
-
-        // console.log("Args", args);
-
         if (!requiredRole) {
           return resolve.apply(this, args);
         }

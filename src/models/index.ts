@@ -6,6 +6,7 @@ if (process.env.DATABASE_URL) {
   // @ts-ignore
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: "postgres",
+    logging: false,
   });
 } else {
   // @ts-ignore
@@ -15,6 +16,7 @@ if (process.env.DATABASE_URL) {
     process.env.DATABASE_PASSWORD,
     {
       dialect: "postgres",
+      logging: false,
     }
   );
 }

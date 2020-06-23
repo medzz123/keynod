@@ -4,13 +4,11 @@ const messageSchema = gql`
   extend type Query {
     messages(cursor: String, limit: Int): MessageConnection!
     message(id: ID!): Message!
-    pingMessage: String! @auth(requires: ADMIN)
-    readMessage: String! @auth(requires: USER, type: IS_MESSAGE_OWNER)
   }
 
   extend type Mutation {
-    createMessage(text: String!): Message!
-    deleteMessage(id: ID!): Boolean!
+    createMessage(text: String!): Message! @auth(requires: USER)
+    deleteMessage(id: ID!): Boolean! @auth(requires: USER)
   }
 
   type MessageConnection {
