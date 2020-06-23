@@ -1,8 +1,9 @@
 import models from "../models";
-import { readAndTransform } from "./convert";
+import { getUsers, getCustomers } from "./getData";
 
 export const createUsersWithMessages = async () => {
-  const data = await readAndTransform();
+  const users = await getUsers();
+  const customers = await getCustomers();
 
   await models.User.create(
     {
@@ -20,7 +21,11 @@ export const createUsersWithMessages = async () => {
     { include: [models.Message] }
   );
 
-  data.forEach(async (el) => {
+  users.forEach(async (el) => {
     await models.User.create(el, { include: [models.Message] });
+  });
+
+  customers.forEach(async (el) => {
+    await models.Customer.create(el);
   });
 };

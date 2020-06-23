@@ -22,6 +22,7 @@ if (process.env.DATABASE_URL) {
 const models = {
   User: sequelize.import("./user"),
   Message: sequelize.import("./message"),
+  Customer: sequelize.import("./customer.ts"),
 };
 
 Object.keys(models).forEach((key) => {
