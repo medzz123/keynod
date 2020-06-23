@@ -9,8 +9,8 @@ describe("users", () => {
         data: {
           user: {
             id: "1",
-            username: "rwieruch",
-            email: "hello@robin.com",
+            username: "ugendo",
+            email: "ugendo@hello.com",
             role: "ADMIN",
           },
         },
@@ -43,15 +43,15 @@ describe("users", () => {
           },
         },
       } = await userApi.signIn({
-        login: "ddavids",
-        password: "ddavids",
+        login: "bugendo",
+        password: "bugendo",
       });
 
       const {
         data: { errors },
       } = await userApi.deleteUser({ id: "1" }, token);
 
-      expect(errors[0].message).to.eql("Not authorized as admin.");
+      expect(errors[0].message).to.eql("Not authorized as ADMIN.");
     });
   });
 });

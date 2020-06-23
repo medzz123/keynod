@@ -2,14 +2,14 @@ import { gql } from "apollo-server-express";
 
 import userSchema from "./user";
 import messageSchema from "./message";
+import customerSchema from "./customer";
 
 const linkSchema = gql`
-  directive @auth(requires: Role = GUEST) on OBJECT | FIELD_DEFINITION
+  directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION
 
   enum Role {
     ADMIN
     USER
-    GUEST
   }
 
   scalar Date
@@ -27,4 +27,4 @@ const linkSchema = gql`
   }
 `;
 
-export default [linkSchema, userSchema, messageSchema];
+export default [linkSchema, userSchema, messageSchema, customerSchema];

@@ -11,8 +11,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "ts": "tsc --noEmit",
-    "test:all": "yarn lint && yarn ts",
-    "t": "ts-node ./src/seed/test.ts"
+    "test:all": "yarn lint && yarn ts"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.0.1",

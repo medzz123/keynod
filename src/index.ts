@@ -29,16 +29,7 @@ const server = new ApolloServer({
   formatError,
   // @ts-ignore
   resolvers,
-  context: async ({ req, connection }) => {
-    if (connection) {
-      return {
-        models,
-        loaders: {
-          user: new DataLoader((keys) => loaders.user.batchUsers(keys, models)),
-        },
-      };
-    }
-
+  context: async ({ req }) => {
     if (req) {
       const me = await getMe(req);
 

@@ -1,25 +1,23 @@
-import jwt from "jsonwebtoken";
 import { combineResolvers } from "graphql-resolvers";
 import { AuthenticationError, UserInputError } from "apollo-server";
 
 import { isAdmin } from "./authorization";
-
-const createToken = async (user, secret, expiresIn) => {
-  const { id, email, username, role } = user;
-  return await jwt.sign({ id, email, username, role }, secret, {
-    expiresIn,
-  });
-};
+import { Context } from "../typings/context";
+import { createToken } from "../utils";
 
 export default {
   Query: {
-    users: async (parent, args, { models }) => {
+    users: async (parent, args, context: Context) => {
+      const { models } = context;
       return await models.User.findAll();
     },
-    user: async (parent, { id }, { models }) => {
+    user: async (parent, args, context: Context) => {
+      const { models } = context;
+      const { id } = args;
       return await models.User.findByPk(id);
     },
-    me: async (parent, args, { models, me }) => {
+    me: async (parent, args, context: Context) => {
+      const { models, me } = context;
       if (!me) {
         return null;
       }
@@ -29,21 +27,22 @@ export default {
   },
 
   Mutation: {
-    signUp: async (
-      parent,
-      { username, email, password },
-      { models, secret }
-    ) => {
+    signUp: async (parent, args, context: Context) => {
+      const { username, email, password, role = "USER" } = args;
+      const { models, secret } = context;
       const user = await models.User.create({
         username,
         email,
         password,
+        role,
       });
 
       return { token: createToken(user, secret, "30m") };
     },
 
-    signIn: async (parent, { login, password }, { models, secret }) => {
+    signIn: async (parent, args, context: Context) => {
+      const { login, password } = args;
+      const { models, secret } = context;
       const user = await models.User.findByLogin(login);
 
       if (!user) {
@@ -61,8 +60,9 @@ export default {
 
     deleteUser: combineResolvers(
       isAdmin,
-      // @ts-ignore
-      async (parent, { id }, { models }) => {
+      async (parent, args, context: Context) => {
+        const { id } = args;
+        const { models } = context;
         return await models.User.destroy({
           where: { id },
         });
@@ -71,7 +71,8 @@ export default {
   },
 
   User: {
-    messages: async (user, args, { models }) => {
+    messages: async (user, args, context: Context) => {
+      const { models } = context;
       return await models.Message.findAll({
         where: {
           userId: user.id,

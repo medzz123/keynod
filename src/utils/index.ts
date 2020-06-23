@@ -26,3 +26,16 @@ export const formatError = (error) => {
     message,
   };
 };
+
+export const toCursorHash = (string: string) =>
+  Buffer.from(string).toString("base64");
+
+export const fromCursorHash = (string: string) =>
+  Buffer.from(string, "base64").toString("ascii");
+
+export const createToken = async (user, secret: string, expiresIn: string) => {
+  const { id, email, username, role } = user;
+  return await jwt.sign({ id, email, username, role }, secret, {
+    expiresIn,
+  });
+};

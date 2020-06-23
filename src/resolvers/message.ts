@@ -1,15 +1,15 @@
 import { combineResolvers } from "graphql-resolvers";
 import Sequelize from "sequelize";
 
-import { isAuthenticated, isMessageOwner } from "./authorization";
-
-const toCursorHash = (string: string) => Buffer.from(string).toString("base64");
-const fromCursorHash = (string: string) =>
-  Buffer.from(string, "base64").toString("ascii");
+import { isMessageOwner } from "./authorization";
+import { Context } from "../typings/context";
+import { fromCursorHash, toCursorHash } from "../utils";
 
 export default {
   Query: {
-    messages: async (parent, { cursor, limit = 100 }, { models }) => {
+    messages: async (_, args, context: Context) => {
+      const { models } = context;
+      const { cursor, limit = 100 } = args;
       const cursorOptions = cursor
         ? {
             where: {
@@ -37,37 +37,37 @@ export default {
         },
       };
     },
-    message: async (parent, { id }, { models }) => {
+    message: async (_, args, context: Context) => {
+      const { id } = args;
+      const { models } = context;
       return await models.Message.findByPk(id);
     },
   },
 
   Mutation: {
-    createMessage: combineResolvers(
-      isAuthenticated,
-      // @ts-ignore
-      async (parent, { text }, { models, me }) => {
-        const message = await models.Message.create({
-          text,
-          userId: me.id,
-        });
+    createMessage: async (parent, args, context: Context) => {
+      const { models, me } = context;
+      const { text } = args;
+      const message = await models.Message.create({
+        text,
+        userId: me.id,
+      });
 
-        return message;
-      }
-    ),
-
+      return message;
+    },
     deleteMessage: combineResolvers(
-      isAuthenticated,
       isMessageOwner,
-      // @ts-ignore
-      async (parent, { id }, { models }) => {
+      async (_, args, context: Context) => {
+        const { models } = context;
+        const { id } = args;
         return await models.Message.destroy({ where: { id } });
       }
     ),
   },
 
   Message: {
-    user: async (message, args, { loaders }) => {
+    user: async (message, _, context: Context) => {
+      const { loaders } = context;
       return await loaders.user.load(message.userId);
     },
   },
