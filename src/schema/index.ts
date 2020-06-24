@@ -1,4 +1,5 @@
 import { gql } from "apollo-server-express";
+import { constraintDirectiveTypeDefs } from "graphql-constraint-directive";
 
 import userSchema from "./user";
 import messageSchema from "./message";
@@ -27,4 +28,10 @@ const linkSchema = gql`
   }
 `;
 
-export default [linkSchema, userSchema, messageSchema, customerSchema];
+export default [
+  linkSchema,
+  userSchema,
+  messageSchema,
+  customerSchema,
+  constraintDirectiveTypeDefs,
+];

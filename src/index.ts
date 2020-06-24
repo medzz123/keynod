@@ -4,9 +4,11 @@ import cors from "cors";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import DataLoader from "dataloader";
+import { constraintDirective } from "graphql-constraint-directive";
+import { makeExecutableSchema } from "graphql-tools";
 
 import resolvers from "./resolvers";
-import schema from "./schema";
+import typeDefs from "./schema";
 import models, { sequelize } from "./models";
 import loaders from "./loaders";
 import env from "./env";
@@ -18,17 +20,21 @@ const app = express();
 
 app.use(cors());
 
+const schema = makeExecutableSchema({
+  typeDefs: typeDefs,
+  resolvers,
+  // @ts-ignore
+  schemaDirectives: { auth: AuthDirective },
+  schemaTransforms: [constraintDirective()],
+});
+
 const server = new ApolloServer({
-  typeDefs: schema,
+  schema,
   introspection: true,
   playground: true,
   tracing: env.DEBUG,
-  schemaDirectives: {
-    auth: AuthDirective,
-  },
   formatError,
   // @ts-ignore
-  resolvers,
   context: async ({ req }) => {
     if (req) {
       const me = await getMe(req);
@@ -47,14 +53,12 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app, path: "/" });
 
-sequelize
-  .sync({ force: env.IS_TEST || env.IS_PRODUCTION || env.RESET_DB })
-  .then(async () => {
-    if (env.IS_TEST || env.IS_PRODUCTION || env.RESET_DB) {
-      createUsersWithMessages();
-    }
+sequelize.sync({ force: env.IS_TEST || env.RESET_DB }).then(async () => {
+  if (env.IS_TEST || env.RESET_DB) {
+    createUsersWithMessages();
+  }
 
-    app.listen({ port: env.PORT }, () => {
-      console.log(`Apollo Server running on http://localhost:${env.PORT}/`);
-    });
+  app.listen({ port: env.PORT }, () => {
+    console.log(`Apollo Server running on http://localhost:${env.PORT}/`);
   });
+});

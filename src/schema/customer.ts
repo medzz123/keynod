@@ -16,7 +16,7 @@ const customerSchema = gql`
     name: String!
     contact: String
     phone: String
-    email: String!
+    email: String! @constraint(minLength: 5, format: "email")
     lineOne: String!
     lineTwo: String
     city: String!
