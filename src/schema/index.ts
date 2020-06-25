@@ -3,6 +3,7 @@ import { constraintDirectiveTypeDefs } from 'graphql-constraint-directive';
 
 import customerSchema from './customer';
 import messageSchema from './message';
+import partSchema from './part';
 import userSchema from './user';
 import vehicleSchema from './vehicle';
 
@@ -40,5 +41,6 @@ export default [
   messageSchema,
   customerSchema,
   vehicleSchema,
+  partSchema,
   constraintDirectiveTypeDefs,
 ];

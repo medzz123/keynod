@@ -2,6 +2,7 @@ import { GraphQLDateTime } from 'graphql-iso-date';
 
 import customerResolvers from './customer';
 import messageResolvers from './message';
+import partResolvers from './part';
 import userResolvers from './user';
 import vehicleResolvers from './vehicle';
 
@@ -15,4 +16,5 @@ export default [
   messageResolvers,
   customerResolvers,
   vehicleResolvers,
+  partResolvers,
 ];

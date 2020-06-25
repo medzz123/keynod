@@ -26,6 +26,7 @@ const models = {
   Message: sequelize.import('./message'),
   Customer: sequelize.import('./customer'),
   Vehicle: sequelize.import('./vehicle'),
+  Part: sequelize.import('./part'),
 };
 
 Object.keys(models).forEach((key) => {

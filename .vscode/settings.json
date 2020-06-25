@@ -2,5 +2,15 @@
   "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "cSpell.words": [
+    "keynod",
+    "hasan",
+    "postgres",
+    "ugabuga",
+    "uga",
+    "buga",
+    "ugendo",
+    "bugendo"
+  ],
 }
