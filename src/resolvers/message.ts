@@ -1,9 +1,7 @@
-import { combineResolvers } from 'graphql-resolvers';
 import Sequelize from 'sequelize';
 
 import { Resolvers } from '../typings/types';
 import { fromCursorHash, toCursorHash } from '../utils';
-import { isMessageOwner } from './authorization';
 
 const messageResolvers: Resolvers = {
   Query: {
@@ -55,15 +53,11 @@ const messageResolvers: Resolvers = {
 
       return message;
     },
-    // @ts-ignore
-    deleteMessage: combineResolvers(
-      isMessageOwner,
-      async (_, args, context) => {
-        const { models } = context;
-        const { id } = args;
-        return await models.Message.destroy({ where: { id } });
-      }
-    ),
+    deleteMessage: async (_, args, context) => {
+      const { models } = context;
+      const { id } = args;
+      return await models.Message.destroy({ where: { id } });
+    },
   },
 
   Message: {

@@ -5,7 +5,7 @@ import { createToken } from '../utils';
 
 const userResolver: Resolvers = {
   Query: {
-    users: async (_, args, context) => {
+    users: async (_, _1, context) => {
       const { models } = context;
       return await models.User.findAll();
     },
@@ -14,7 +14,7 @@ const userResolver: Resolvers = {
       const { id } = args;
       return await models.User.findByPk(id);
     },
-    me: async (_, args, context) => {
+    me: async (_, _1, context) => {
       const { models, me } = context;
       if (!me) {
         return null;
