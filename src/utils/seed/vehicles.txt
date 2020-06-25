@@ -1,0 +1,5 @@
+FS 3R1,Ford,Super,3,red,1
+TM 2R1,Tesla,Model S,2,red,1
+FL 4B2,Ferrari,Ludicrous,4,black,2
+BG 1G2,BMW,GT5,10,gray,2
+AC 5G2,Audi,Corona,5,green,2
