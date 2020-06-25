@@ -5,20 +5,20 @@ import * as userApi from './api';
 describe('users', () => {
   describe('user(id: String!): User', () => {
     it('returns a user when user can be found', async () => {
-      const expectedResult = {
+      const {
         data: {
-          user: {
-            id: '1',
-            username: 'super',
-            email: 'sysdba@hello.com',
-            role: 'ADMIN',
+          data: {
+            signIn: { token },
           },
         },
-      };
+      } = await userApi.signIn({
+        login: 'receptionist',
+        password: 'bugendo',
+      });
 
-      const result = await userApi.user({ id: '1' });
+      const result = await userApi.user({ id: '1' }, token);
 
-      expect(result.data).to.eql(expectedResult);
+      expect(result.data.data.user.id).to.eql('1');
     });
 
     it('returns null when user cannot be found', async () => {
@@ -28,7 +28,18 @@ describe('users', () => {
         },
       };
 
-      const result = await userApi.user({ id: '42' });
+      const {
+        data: {
+          data: {
+            signIn: { token },
+          },
+        },
+      } = await userApi.signIn({
+        login: 'receptionist',
+        password: 'bugendo',
+      });
+
+      const result = await userApi.user({ id: '1234' }, token);
 
       expect(result.data).to.eql(expectedResult);
     });

@@ -15,6 +15,7 @@ const linkSchema = gql`
     RECEPTIONIST
     MECHANIC
     FOREPERSON
+    AUTH
   }
 
   type PageInfo {

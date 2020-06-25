@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-import { Resolvers } from '../typings/types';
+import { Resolvers } from '../typings/generated';
 import { fromCursorHash, toCursorHash } from '../utils';
 
 const vehicleResolvers: Resolvers = {

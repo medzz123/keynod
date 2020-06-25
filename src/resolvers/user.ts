@@ -1,6 +1,6 @@
 import { AuthenticationError, UserInputError } from 'apollo-server';
 
-import { Resolvers } from '../typings/types';
+import { Resolvers } from '../typings/generated';
 import { createToken } from '../utils';
 
 const userResolver: Resolvers = {

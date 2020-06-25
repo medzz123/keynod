@@ -2,9 +2,9 @@ import { gql } from 'apollo-server-express';
 
 const userSchema = gql`
   extend type Query {
-    users: [User!]
-    user(id: ID!): User
-    me: User
+    users: [User!] @auth(requires: RECEPTIONIST)
+    user(id: ID!): User @auth(requires: RECEPTIONIST)
+    me: User @auth(requires: AUTH)
   }
 
   enum UserRoleInput {
@@ -23,11 +23,11 @@ const userSchema = gql`
   }
 
   extend type Mutation {
-    createUser(input: CreateUser!): User! @auth(requires: ADMIN)
+    createUser(input: CreateUser!): User! @auth(requires: RECEPTIONIST)
 
     signIn(login: String!, password: String!): Token!
 
-    deleteUser(id: ID!): Boolean! @auth(requires: ADMIN)
+    deleteUser(id: ID!): Boolean! @auth(requires: FOREPERSON)
   }
 
   type Token {

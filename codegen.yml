@@ -1,7 +1,7 @@
 schema: 
   - './src/schema/*.ts'
 generates:
-  ./src/typings/types.d.ts:
+  ./src/typings/generated.ts:
     config: 
       contextType: ./context#MyContext
     plugins:

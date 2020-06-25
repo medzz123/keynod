@@ -4,9 +4,11 @@ import { environmentVariables } from '../utils/env';
 
 const API_URL = `http://localhost:${environmentVariables.PORT}/graphql`;
 
-export const user = async (variables) =>
-  axios.post(API_URL, {
-    query: `
+export const user = async (variables, token) =>
+  axios.post(
+    API_URL,
+    {
+      query: `
       query ($id: ID!) {
         user(id: $id) {
           id
@@ -16,8 +18,14 @@ export const user = async (variables) =>
         }
       }
     `,
-    variables,
-  });
+      variables,
+    },
+    {
+      headers: {
+        'x-token': token,
+      },
+    }
+  );
 
 export const signIn = async (variables) =>
   await axios.post(API_URL, {

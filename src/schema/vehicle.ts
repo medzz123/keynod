@@ -3,13 +3,16 @@ import { gql } from 'apollo-server-express';
 const vehicleSchema = gql`
   extend type Query {
     vehicles(cursor: String, limit: Int): VehicleConnection!
-    vehicle(input: VehicleByIdInput!): Vehicle
+      @auth(requires: RECEPTIONIST)
+    vehicle(input: VehicleByIdInput!): Vehicle @auth(requires: MECHANIC)
   }
 
   extend type Mutation {
     createVehicle(input: CreateVehicleInput!): Vehicle!
+      @auth(requires: RECEPTIONIST)
 
     deleteVehicle(input: DeleteVehicleInput!): Boolean!
+      @auth(requires: RECEPTIONIST)
   }
 
   input CreateVehicleInput {

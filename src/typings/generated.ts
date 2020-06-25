@@ -155,7 +155,8 @@ export enum Role {
   Franchise = 'FRANCHISE',
   Receptionist = 'RECEPTIONIST',
   Mechanic = 'MECHANIC',
-  Foreperson = 'FOREPERSON'
+  Foreperson = 'FOREPERSON',
+  Auth = 'AUTH'
 }
 
 export type PageInfo = {
@@ -205,7 +206,15 @@ export type PartConnection = {
   pageInfo: PageInfo;
 };
 
+export enum UserRoleInput {
+  Franchise = 'FRANCHISE',
+  Receptionist = 'RECEPTIONIST',
+  Mechanic = 'MECHANIC',
+  Foreperson = 'FOREPERSON'
+}
+
 export enum UserRole {
+  Admin = 'ADMIN',
   Franchise = 'FRANCHISE',
   Receptionist = 'RECEPTIONIST',
   Mechanic = 'MECHANIC',
@@ -228,7 +237,7 @@ export type User = {
 export type CreateUser = {
   username: Scalars['String'];
   email: Scalars['String'];
-  role: UserRole;
+  role: UserRoleInput;
   password: Scalars['String'];
 };
 
@@ -360,6 +369,7 @@ export type ResolversTypes = {
   PartByIdInput: PartByIdInput;
   Part: ResolverTypeWrapper<Part>;
   PartConnection: ResolverTypeWrapper<PartConnection>;
+  UserRoleInput: UserRoleInput;
   UserRole: UserRole;
   Token: ResolverTypeWrapper<Token>;
   User: ResolverTypeWrapper<User>;

@@ -1,4 +1,4 @@
-import { Resolvers } from '../typings/types';
+import { Resolvers } from '../typings/generated';
 
 const customerResolver: Resolvers = {
   Query: {

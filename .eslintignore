@@ -4,4 +4,4 @@ dist
 .history
 yarn-error.log
 .eslintrc.js
-src/typings/types.d.ts
+src/typings/generated.ts
