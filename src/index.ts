@@ -14,7 +14,7 @@ import { formatError, getMe } from './utils';
 import AuthDirective from './utils/directives/AuthorizationDirective';
 import { environmentVariables } from './utils/env';
 import loaders from './utils/loaders';
-import { createUsersWithMessages } from './utils/seed';
+import { seedDatabase } from './utils/seed';
 
 const app = express();
 
@@ -65,7 +65,7 @@ sequelize
   })
   .then(async () => {
     if (environmentVariables.IS_TEST || environmentVariables.RESET_DB) {
-      createUsersWithMessages();
+      seedDatabase();
     }
 
     app.listen({ port: environmentVariables.PORT }, () => {

@@ -1,10 +1,11 @@
 import models from '../../models';
-import { getCustomers, getUsers, getVehicles } from './getData';
+import { getCustomers, getParts, getUsers, getVehicles } from './getData';
 
-export const createUsersWithMessages = async () => {
+export const seedDatabase = async () => {
   const users = await getUsers();
   const customers = await getCustomers();
   const vehicles = await getVehicles();
+  const parts = await getParts();
 
   await models.User.create(
     {
@@ -32,5 +33,9 @@ export const createUsersWithMessages = async () => {
 
   vehicles.forEach(async (el) => {
     await models.Vehicle.create(el);
+  });
+
+  parts.forEach(async (el) => {
+    await models.Part.create(el);
   });
 };

@@ -1,0 +1,4 @@
+bolt,15,5.50,IKEA,Used to bolt some stuff,Truck,7
+nut,23,0.8,Walmart,Hit it like a hammer,Truck,18
+screw,88,0.5,IKEA,Screwing things cuz bored?,Sedan,3
+tire,20,30.50,MC Donald's,You can have many types of fun,Sports Car,5

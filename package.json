@@ -12,7 +12,8 @@
     "lint:fix": "eslint . --ext .ts --fix",
     "ts": "tsc --noEmit",
     "test:all": "yarn lint && yarn ts",
-    "generate": "graphql-codegen"
+    "generate": "graphql-codegen",
+    "reset": "dotenv ts-node ./src/scripts/resetdb.ts"
   },
   "devDependencies": {
     "@commitlint/cli": "^9.0.1",

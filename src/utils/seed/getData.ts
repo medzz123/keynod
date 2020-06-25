@@ -4,6 +4,7 @@ import path from 'path';
 const usersPath = path.join(__dirname, 'users.txt');
 const customerPath = path.join(__dirname, 'customers.txt');
 const vehiclesPath = path.join(__dirname, 'vehicles.txt');
+const partsPath = path.join(__dirname, 'parts.txt');
 
 const randomRate = (start: Date, end: Date) =>
   new Date(
@@ -79,6 +80,28 @@ export const getVehicles = async () => {
       yearsUsed: keys[3],
       color: keys[4],
       customerId: keys[5],
+    };
+  });
+
+  return result;
+};
+
+export const getParts = async () => {
+  const file = await fs.readFile(partsPath, 'utf8');
+
+  const rows = file.split('\n');
+
+  const result = rows.map((el) => {
+    const keys = el.split(',');
+
+    return {
+      name: keys[0],
+      quantity: keys[1],
+      price: keys[2],
+      manufacturer: keys[3],
+      description: keys[4],
+      vehicleType: keys[5],
+      threshold: keys[6],
     };
   });
 
