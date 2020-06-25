@@ -61,10 +61,10 @@ server.applyMiddleware({ app, path: '/' });
 
 sequelize
   .sync({
-    force: environmentVariables.IS_TEST || environmentVariables.RESET_DB,
+    force: environmentVariables.IS_TEST || environmentVariables.IS_PRODUCTION,
   })
   .then(async () => {
-    if (environmentVariables.IS_TEST || environmentVariables.RESET_DB) {
+    if (environmentVariables.IS_TEST || environmentVariables.IS_PRODUCTION) {
       seedDatabase();
     }
 
