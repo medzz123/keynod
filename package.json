@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon",
-    "test-server": "TEST_DATABASE=mytestdatabase yarn start",
+    "test-server": "TEST_DATABASE=mytestdatabase IS_TEST=true yarn start",
     "test": "ts-mocha -p tsconfig.json src/**/*.spec.ts",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
@@ -44,6 +44,7 @@
     "express": "^4.17.1",
     "graphql": "^15.1.0",
     "graphql-constraint-directive": "^2.0.3",
+    "graphql-depth-limit": "^1.1.0",
     "graphql-iso-date": "^3.6.1",
     "graphql-resolvers": "^0.4.2",
     "graphql-tools": "^6.0.10",

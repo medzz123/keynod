@@ -57,4 +57,13 @@ export default {
       });
     },
   },
+
+  Customer: {
+    vehicles: async (customer, args, context: Context) => {
+      const { models } = context;
+      return await models.Vehicle.findAll({
+        where: { customerId: customer.id },
+      });
+    },
+  },
 };

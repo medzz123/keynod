@@ -4,6 +4,7 @@ import { constraintDirectiveTypeDefs } from "graphql-constraint-directive";
 import userSchema from "./user";
 import messageSchema from "./message";
 import customerSchema from "./customer";
+import vehicleSchema from "./vehicle";
 
 const linkSchema = gql`
   directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION
@@ -11,6 +12,11 @@ const linkSchema = gql`
   enum Role {
     ADMIN
     USER
+  }
+
+  type PageInfo {
+    hasNextPage: Boolean!
+    endCursor: String!
   }
 
   scalar Date
@@ -33,5 +39,6 @@ export default [
   userSchema,
   messageSchema,
   customerSchema,
+  vehicleSchema,
   constraintDirectiveTypeDefs,
 ];

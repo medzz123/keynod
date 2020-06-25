@@ -15,6 +15,12 @@ interface Loaders {
   user: {
     load: (id: string) => Promise<User>;
   };
+  customer: {
+    load: (id: string) => Promise<any>;
+  };
+  vehicle: {
+    load: (id: string) => Promise<any>;
+  };
 }
 
 export interface Context {
