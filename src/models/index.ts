@@ -12,7 +12,7 @@ export default {
   Vehicle,
 };
 
-export interface ModelType {
+export interface ModelsType {
   Part: PartModelStatic;
   Customer: CustomerModelStatic;
   Vehicle: VehicleModelStatic;

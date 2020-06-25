@@ -35,7 +35,6 @@ const server = new ApolloServer({
   tracing: environmentVariables.DEBUG,
   validationRules: [depthLimit(5)],
   formatError,
-  // @ts-ignore
   context: async ({ req }) => {
     if (req) {
       const me = await getMe(req);

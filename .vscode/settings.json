@@ -4,13 +4,15 @@
     "source.fixAll.eslint": true
   },
   "cSpell.words": [
-    "keynod",
-    "hasan",
-    "postgres",
-    "ugabuga",
-    "uga",
+    "Mahedi",
     "buga",
-    "ugendo",
-    "bugendo"
+    "bugendo",
+    "codegen",
+    "hasan",
+    "keynod",
+    "postgres",
+    "uga",
+    "ugabuga",
+    "ugendo"
   ],
 }

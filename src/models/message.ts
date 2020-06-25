@@ -2,7 +2,7 @@ import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
 
-class Message extends Model {
+export class Message extends Model {
   public id: string;
   public text: string;
   public readonly createdAt: Date;

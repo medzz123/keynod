@@ -1,12 +1,12 @@
-import { Context } from '../typings/context';
+import { Resolvers } from '../typings/types';
 
-export default {
+const customerResolver: Resolvers = {
   Query: {
-    customers: async (parent, args, context: Context) => {
+    customers: async (_, args, context) => {
       const { models } = context;
       return await models.Customer.findAll();
     },
-    customer: async (parent, args, context: Context) => {
+    customer: async (_, args, context) => {
       const { models } = context;
       const { id } = args;
       return await models.Customer.findByPk(id);
@@ -14,40 +14,16 @@ export default {
   },
 
   Mutation: {
-    createCustomer: async (parent, args, context: Context) => {
-      const {
-        input: {
-          name,
-          contact,
-          phone,
-          email,
-          role,
-          lineOne,
-          lineTwo,
-          city,
-          postcode,
-          country,
-        },
-      } = args;
+    createCustomer: async (_, args, context) => {
+      const { input } = args;
       const { models } = context;
 
-      const user = await models.Customer.create({
-        name,
-        contact,
-        phone,
-        email,
-        role,
-        lineOne,
-        lineTwo,
-        city,
-        postcode,
-        country,
-      });
+      const user = await models.Customer.create({ ...input });
 
       return user;
     },
 
-    deleteCustomer: async (parent, args, context: Context) => {
+    deleteCustomer: async (_, args, context) => {
       const {
         input: { id },
       } = args;
@@ -59,7 +35,7 @@ export default {
   },
 
   Customer: {
-    vehicles: async (customer, args, context: Context) => {
+    vehicles: async (customer, _, context) => {
       const { models } = context;
       return await models.Vehicle.findAll({
         where: { customerId: customer.id },
@@ -67,3 +43,5 @@ export default {
     },
   },
 };
+
+export default customerResolver;

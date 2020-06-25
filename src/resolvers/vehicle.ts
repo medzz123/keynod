@@ -1,11 +1,11 @@
 import Sequelize from 'sequelize';
 
-import { Context } from '../typings/context';
+import { Resolvers } from '../typings/types';
 import { fromCursorHash, toCursorHash } from '../utils';
 
-export default {
+const vehicleResolvers: Resolvers = {
   Query: {
-    vehicles: async (_, args, context: Context) => {
+    vehicles: async (_, args, context) => {
       const { models } = context;
       const { cursor, limit = 100 } = args;
 
@@ -36,7 +36,7 @@ export default {
         },
       };
     },
-    vehicle: async (_, args, context: Context) => {
+    vehicle: async (_, args, context) => {
       const {
         input: { regNo },
       } = args;
@@ -46,7 +46,7 @@ export default {
   },
 
   Mutation: {
-    createVehicle: async (parent, args, context: Context) => {
+    createVehicle: async (_, args, context) => {
       const { models } = context;
       const {
         input: { customerId, make, model, regNo, yearsUsed, color },
@@ -63,7 +63,7 @@ export default {
 
       return vehicle;
     },
-    deleteVehicle: async (_, args, context: Context) => {
+    deleteVehicle: async (_, args, context) => {
       const { models } = context;
       const {
         input: { regNo },
@@ -73,9 +73,12 @@ export default {
   },
 
   Vehicle: {
-    customer: async (vehicle, _, context: Context) => {
+    customer: async (vehicle, _, context) => {
       const { loaders } = context;
+      // @ts-ignore
       return await loaders.customer.load(vehicle.customerId);
     },
   },
 };
+
+export default vehicleResolvers;

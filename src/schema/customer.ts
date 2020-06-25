@@ -20,6 +20,7 @@ const customerSchema = gql`
     lineOne: String!
     lineTwo: String
     city: String!
+    role: String!
     country: String!
     postcode: String!
   }

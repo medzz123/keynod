@@ -4,7 +4,7 @@ import { BuildOptions, DataTypes, Model } from 'sequelize';
 import sequelize from '../db';
 import Message from './message';
 
-class User extends Model {
+export class User extends Model {
   public id: string;
   public username: string;
   public email: string;

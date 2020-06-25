@@ -1,13 +1,13 @@
 import { combineResolvers } from 'graphql-resolvers';
 import Sequelize from 'sequelize';
 
-import { Context } from '../typings/context';
+import { Resolvers } from '../typings/types';
 import { fromCursorHash, toCursorHash } from '../utils';
 import { isMessageOwner } from './authorization';
 
-export default {
+const messageResolvers: Resolvers = {
   Query: {
-    messages: async (_, args, context: Context) => {
+    messages: async (_, args, context) => {
       const { models } = context;
       const { cursor, limit = 100 } = args;
       const cursorOptions = cursor
@@ -37,7 +37,7 @@ export default {
         },
       };
     },
-    message: async (_, args, context: Context) => {
+    message: async (_, args, context) => {
       const { id } = args;
       const { models } = context;
       return await models.Message.findByPk(id);
@@ -45,7 +45,7 @@ export default {
   },
 
   Mutation: {
-    createMessage: async (parent, args, context: Context) => {
+    createMessage: async (_, args, context) => {
       const { models, me } = context;
       const { text } = args;
       const message = await models.Message.create({
@@ -55,9 +55,10 @@ export default {
 
       return message;
     },
+    // @ts-ignore
     deleteMessage: combineResolvers(
       isMessageOwner,
-      async (_, args, context: Context) => {
+      async (_, args, context) => {
         const { models } = context;
         const { id } = args;
         return await models.Message.destroy({ where: { id } });
@@ -66,9 +67,12 @@ export default {
   },
 
   Message: {
-    user: async (message, _, context: Context) => {
+    user: async (message, _, context) => {
       const { loaders } = context;
+      // @ts-ignore
       return await loaders.user.load(message.userId);
     },
   },
 };
+
+export default messageResolvers;

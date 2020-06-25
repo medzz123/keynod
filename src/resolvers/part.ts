@@ -1,11 +1,11 @@
 import Sequelize from 'sequelize';
 
-import { Context } from '../typings/context';
+import { Resolvers } from '../typings/types';
 import { fromCursorHash, toCursorHash } from '../utils';
 
-export default {
+const partResolver: Resolvers = {
   Query: {
-    parts: async (_, args, context: Context) => {
+    parts: async (_, args, context) => {
       const { models } = context;
       const { cursor, limit = 100 } = args;
 
@@ -36,43 +36,27 @@ export default {
         },
       };
     },
-    part: async (_, args, context: Context) => {
+    part: async (_, args, context) => {
       const {
-        input: { regNo },
+        input: { id },
       } = args;
       const { models } = context;
-      return await models.Part.findByPk(regNo);
+      return await models.Part.findByPk(id);
     },
   },
 
   Mutation: {
-    createPart: async (parent, args, context: Context) => {
+    createPart: async (_, args, context) => {
       const { models } = context;
-      const {
-        input: {
-          name,
-          quantity,
-          price,
-          manufacturer,
-          description,
-          vehicleType,
-          threshold,
-        },
-      } = args;
+      const { input } = args;
 
       const part = await models.Part.create({
-        name,
-        quantity,
-        price,
-        manufacturer,
-        description,
-        vehicleType,
-        threshold,
+        ...input,
       });
 
       return part;
     },
-    deletePart: async (_, args, context: Context) => {
+    deletePart: async (_, args, context) => {
       const { models } = context;
       const {
         input: { id },
@@ -81,3 +65,5 @@ export default {
     },
   },
 };
+
+export default partResolver;

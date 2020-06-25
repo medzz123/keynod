@@ -3,7 +3,7 @@ import { BuildOptions, DataTypes, Model } from 'sequelize';
 import sequelize from '../db';
 import Vehicle from './vehicle';
 
-class Customer extends Model {
+export class Customer extends Model {
   public id: string;
   public name: string;
   public contact: string;
