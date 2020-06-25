@@ -53,6 +53,10 @@ const customer = (sequelize, DataTypes) => {
     },
   });
 
+  Customer.associate = (models) => {
+    Customer.hasMany(models.Vehicle, { onDelete: "CASCADE" });
+  };
+
   return Customer;
 };
 

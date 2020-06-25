@@ -16,11 +16,6 @@ const messageSchema = gql`
     pageInfo: PageInfo!
   }
 
-  type PageInfo {
-    hasNextPage: Boolean!
-    endCursor: String!
-  }
-
   type Message {
     id: ID!
     text: String!

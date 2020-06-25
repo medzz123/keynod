@@ -39,6 +39,7 @@ const customerSchema = gql`
     city: String!
     country: String!
     postcode: String!
+    vehicles: [Vehicle!]
   }
 `;
 

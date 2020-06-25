@@ -6,6 +6,7 @@ import { ApolloServer } from "apollo-server-express";
 import DataLoader from "dataloader";
 import { constraintDirective } from "graphql-constraint-directive";
 import { makeExecutableSchema } from "graphql-tools";
+import depthLimit from "graphql-depth-limit";
 
 import resolvers from "./resolvers";
 import typeDefs from "./schema";
@@ -33,6 +34,7 @@ const server = new ApolloServer({
   introspection: true,
   playground: true,
   tracing: env.DEBUG,
+  validationRules: [depthLimit(5)],
   formatError,
   // @ts-ignore
   context: async ({ req }) => {
@@ -45,6 +47,12 @@ const server = new ApolloServer({
         secret: process.env.SECRET,
         loaders: {
           user: new DataLoader((keys) => loaders.user.batchUsers(keys, models)),
+          vehicle: new DataLoader((keys) =>
+            loaders.vehicle.batchVehicles(keys, models)
+          ),
+          customer: new DataLoader((keys) =>
+            loaders.customer.batchCustomers(keys, models)
+          ),
         },
       };
     }
