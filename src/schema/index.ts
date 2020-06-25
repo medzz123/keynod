@@ -2,25 +2,25 @@ import { gql } from 'apollo-server-express';
 import { constraintDirectiveTypeDefs } from 'graphql-constraint-directive';
 
 import customerSchema from './customer';
-import messageSchema from './message';
 import partSchema from './part';
 import userSchema from './user';
 import vehicleSchema from './vehicle';
 
 const linkSchema = gql`
-  directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION
+  directive @auth(requires: Role = RECEPTIONIST) on OBJECT | FIELD_DEFINITION
 
   enum Role {
     ADMIN
-    USER
+    FRANCHISE
+    RECEPTIONIST
+    MECHANIC
+    FOREPERSON
   }
 
   type PageInfo {
     hasNextPage: Boolean!
     endCursor: String!
   }
-
-  scalar Date
 
   type Query {
     _: Boolean
@@ -38,7 +38,6 @@ const linkSchema = gql`
 export default [
   linkSchema,
   userSchema,
-  messageSchema,
   customerSchema,
   vehicleSchema,
   partSchema,

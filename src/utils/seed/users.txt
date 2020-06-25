@@ -1,7 +1,6 @@
-nintendo,bugedo@hello.com,bugendo,user,nothing much,do you know,a broendo
-fuckendo,fuckendo@hello.com,bugendo,user,whatcha you doing,that alligators,runs over a lultendo
-broendo,broendo@hello.com,bugendo,user,a lot of things,run a scheme,what should nitnedo do
-lultendo,lultendo@hello.com,bugendo,user,why man,where chickens,it should apendo the dendo
-suckendo,suckendo@hello.com,bugendo,user,cuz bored,are not eaten,nonsense muntendo
-bugendo,bugendo@hello.com,bugendo,admin,really man,alive,oke bro
-apendo,apendo@hello.com,bugendo,user,yes sir yes,but fried,oke bro
+super,MasterKey,sysdba@hello.com,ADMIN
+admin,admin,admin@hello.com,ADMIN
+franchise,bugendo,franchise@hello.com,FRANCHISE
+receptionist,bugendo,receptionist@hello.com,RECEPTIONIST
+mechanic,bugendo,mechanic@hello.com,MECHANIC
+foreperson,bugendo,foreperson@hello.com,FOREPERSON

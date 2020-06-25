@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
-import Message from './message';
 
 export class User extends Model {
   public id: string;
@@ -31,6 +30,14 @@ User.init(
         notEmpty: true,
       },
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [5, 20],
+      },
+    },
     email: {
       type: DataTypes.STRING,
       unique: true,
@@ -40,16 +47,18 @@ User.init(
         isEmail: true,
       },
     },
-    password: {
-      type: DataTypes.STRING,
+    role: {
+      type: DataTypes.ENUM(
+        'ADMIN',
+        'FRANCHISE',
+        'RECEPTIONIST',
+        'MECHANIC',
+        'FOREPERSON'
+      ),
       allowNull: false,
       validate: {
         notEmpty: true,
-        len: [7, 42],
       },
-    },
-    role: {
-      type: DataTypes.STRING,
     },
   },
   { sequelize, modelName: 'user' }
@@ -81,9 +90,6 @@ User.prototype.generatePasswordHash = async function () {
 User.prototype.validatePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
-
-User.hasMany(Message, { onDelete: 'CASCADE' });
-Message.belongsTo(User);
 
 export type UserModelStatic = typeof Model & {
   new (values?: Record<string, unknown>, options?: BuildOptions): User;

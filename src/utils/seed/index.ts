@@ -7,24 +7,8 @@ export const seedDatabase = async () => {
   const vehicles = await getVehicles();
   const parts = await getParts();
 
-  await models.User.create(
-    {
-      username: 'ugendo',
-      role: 'ADMIN',
-      email: 'ugendo@hello.com',
-      password: 'bugendo',
-      messages: [
-        {
-          text: 'Sup',
-          createdAt: new Date(),
-        },
-      ],
-    },
-    { include: [models.Message] }
-  );
-
   users.forEach(async (el) => {
-    await models.User.create(el, { include: [models.Message] });
+    await models.User.create(el);
   });
 
   customers.forEach(async (el) => {

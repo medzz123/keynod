@@ -7,25 +7,24 @@ const customerSchema = gql`
   }
 
   extend type Mutation {
-    createCustomer(input: CreateCustomerInput!): Customer! @auth(requires: USER)
+    createCustomer(input: CreateCustomer!): Customer!
 
-    deleteCustomer(input: DeleteCustomerInput!): Boolean! @auth(requires: ADMIN)
+    deleteCustomer(input: DeleteCustomer!): Boolean! @auth(requires: ADMIN)
   }
 
-  input CreateCustomerInput {
+  input CreateCustomer {
     name: String!
     contact: String
     phone: String
-    email: String! @constraint(minLength: 5, format: "email")
+    email: String! @constraint(format: "email")
     lineOne: String!
     lineTwo: String
     city: String!
-    role: String!
     country: String!
     postcode: String!
   }
 
-  input DeleteCustomerInput {
+  input DeleteCustomer {
     id: ID!
   }
 

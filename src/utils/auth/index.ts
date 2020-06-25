@@ -4,7 +4,7 @@ export const isAuthenticated = (args, context) => {
   const { me } = context;
 
   if (!me) {
-    throw new ForbiddenError('Not authenticated as user.');
+    throw new ForbiddenError('Not authenticated!');
   }
 };
 
@@ -15,22 +15,9 @@ export const isRole = (args, context, requiredRole) => {
     me: { role },
   } = context;
 
-  if (role === 'ADMIN') {
+  if (role === requiredRole) {
     return;
   }
 
-  if (!(role === requiredRole)) {
-    throw new ForbiddenError(`Not authorized as ${requiredRole}.`);
-  }
-};
-
-export const isMessageOwner = async (args, context) => {
-  const { id } = args;
-  const { models, me } = context;
-
-  const message = await models.Message.findByPk(id, { raw: true });
-
-  if (message.userId !== me.id) {
-    throw new ForbiddenError('Not authenticated as owner.');
-  }
+  throw new ForbiddenError(`You don't have enough permissions!`);
 };

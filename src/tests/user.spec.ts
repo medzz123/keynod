@@ -9,8 +9,8 @@ describe('users', () => {
         data: {
           user: {
             id: '1',
-            username: 'ugendo',
-            email: 'ugendo@hello.com',
+            username: 'super',
+            email: 'sysdba@hello.com',
             role: 'ADMIN',
           },
         },
@@ -43,7 +43,7 @@ describe('users', () => {
           },
         },
       } = await userApi.signIn({
-        login: 'bugendo',
+        login: 'mechanic',
         password: 'bugendo',
       });
 
@@ -51,7 +51,7 @@ describe('users', () => {
         data: { errors },
       } = await userApi.deleteUser({ id: '1' }, token);
 
-      expect(errors[0].message).to.eql('Not authorized as ADMIN.');
+      expect(errors[0].message).to.eql("You don't have enough permissions!");
     });
   });
 });

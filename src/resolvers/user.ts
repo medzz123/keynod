@@ -25,19 +25,14 @@ const userResolver: Resolvers = {
   },
 
   Mutation: {
-    signUp: async (_, args, context) => {
-      const { username, email, password, role = 'USER' } = args;
-      const { models, secret } = context;
+    createUser: async (_, args, context) => {
+      const { input } = args;
+      const { models } = context;
       const user = await models.User.create({
-        username,
-        email,
-        password,
-        role,
+        ...input,
       });
 
-      const token = await createToken(user, secret, '30m');
-
-      return { token };
+      return user;
     },
 
     signIn: async (_, args, context) => {
@@ -65,17 +60,6 @@ const userResolver: Resolvers = {
       const { models } = context;
       return await models.User.destroy({
         where: { id },
-      });
-    },
-  },
-
-  User: {
-    messages: async (user, _, context) => {
-      const { models } = context;
-      return await models.Message.findAll({
-        where: {
-          userId: user.id,
-        },
       });
     },
   },

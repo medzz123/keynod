@@ -7,13 +7,23 @@ const userSchema = gql`
     me: User
   }
 
+  enum UserRoleInput {
+    FRANCHISE
+    RECEPTIONIST
+    MECHANIC
+    FOREPERSON
+  }
+
+  enum UserRole {
+    ADMIN
+    FRANCHISE
+    RECEPTIONIST
+    MECHANIC
+    FOREPERSON
+  }
+
   extend type Mutation {
-    signUp(
-      username: String!
-      email: String!
-      password: String!
-      role: String
-    ): Token!
+    createUser(input: CreateUser!): User! @auth(requires: ADMIN)
 
     signIn(login: String!, password: String!): Token!
 
@@ -28,8 +38,14 @@ const userSchema = gql`
     id: ID!
     username: String!
     email: String!
-    role: String
-    messages: [Message!]
+    role: UserRole!
+  }
+
+  input CreateUser {
+    username: String!
+    email: String! @constraint(format: "email")
+    role: UserRoleInput!
+    password: String! @constraint(minLength: 5, maxLength: 20)
   }
 `;
 

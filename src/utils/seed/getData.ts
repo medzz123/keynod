@@ -6,17 +6,9 @@ const customerPath = path.join(__dirname, 'customers.txt');
 const vehiclesPath = path.join(__dirname, 'vehicles.txt');
 const partsPath = path.join(__dirname, 'parts.txt');
 
-const randomRate = (start: Date, end: Date) =>
-  new Date(
-    start.getTime() + Math.random() * (end.getTime() - start.getTime())
-  ).getTime();
-
 const checkNull = (input: string) => (input === 'null' ? null : input);
 
 export const getUsers = async () => {
-  const start = new Date(2012, 1, 1);
-  const end = new Date();
-
   const file = await fs.readFile(usersPath, 'utf8');
 
   const rows = file.split('\n');
@@ -24,17 +16,11 @@ export const getUsers = async () => {
   const result = rows.map((el) => {
     const keys = el.split(',');
 
-    const messages = keys.slice(4, keys.length).map((m) => ({
-      text: m,
-      createdAt: randomRate(start, end),
-    }));
-
     return {
       username: keys[0],
-      email: keys[1],
-      password: keys[2],
+      password: keys[1],
+      email: keys[2],
       role: keys[3],
-      messages,
     };
   });
 

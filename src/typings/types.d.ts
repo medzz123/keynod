@@ -1,16 +1,8 @@
-import {
-  GraphQLResolveInfo,
-  GraphQLScalarType,
-  GraphQLScalarTypeConfig,
-} from 'graphql';
-
+import { GraphQLResolveInfo } from 'graphql';
 import { MyContext } from './context';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
-export type RequireFields<T, K extends keyof T> = {
-  [X in Exclude<keyof T, K>]?: T[X];
-} &
-  { [P in K]-?: NonNullable<T[P]> };
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -18,8 +10,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: any;
 };
+
 
 export type Query = {
   __typename?: 'Query';
@@ -27,8 +19,6 @@ export type Query = {
   customer?: Maybe<Customer>;
   customers?: Maybe<Array<Customer>>;
   me?: Maybe<User>;
-  message: Message;
-  messages: MessageConnection;
   part?: Maybe<Part>;
   parts: PartConnection;
   user?: Maybe<User>;
@@ -37,35 +27,32 @@ export type Query = {
   vehicles: VehicleConnection;
 };
 
+
 export type QueryCustomerArgs = {
   id: Scalars['ID'];
 };
 
-export type QueryMessageArgs = {
-  id: Scalars['ID'];
-};
-
-export type QueryMessagesArgs = {
-  cursor?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-};
 
 export type QueryPartArgs = {
   input: PartByIdInput;
 };
+
 
 export type QueryPartsArgs = {
   cursor?: Maybe<Scalars['String']>;
   limit?: Maybe<Scalars['Int']>;
 };
 
+
 export type QueryUserArgs = {
   id: Scalars['ID'];
 };
 
+
 export type QueryVehicleArgs = {
   input: VehicleByIdInput;
 };
+
 
 export type QueryVehiclesArgs = {
   cursor?: Maybe<Scalars['String']>;
@@ -76,67 +63,63 @@ export type Mutation = {
   __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
   createCustomer: Customer;
-  createMessage: Message;
   createPart: Part;
+  createUser: User;
   createVehicle: Vehicle;
   deleteCustomer: Scalars['Boolean'];
-  deleteMessage: Scalars['Boolean'];
   deletePart: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
   deleteVehicle: Scalars['Boolean'];
   signIn: Token;
-  signUp: Token;
 };
+
 
 export type MutationCreateCustomerArgs = {
-  input: CreateCustomerInput;
+  input: CreateCustomer;
 };
 
-export type MutationCreateMessageArgs = {
-  text: Scalars['String'];
-};
 
 export type MutationCreatePartArgs = {
   input: CreatePartInput;
 };
 
+
+export type MutationCreateUserArgs = {
+  input: CreateUser;
+};
+
+
 export type MutationCreateVehicleArgs = {
   input: CreateVehicleInput;
 };
 
+
 export type MutationDeleteCustomerArgs = {
-  input: DeleteCustomerInput;
+  input: DeleteCustomer;
 };
 
-export type MutationDeleteMessageArgs = {
-  id: Scalars['ID'];
-};
 
 export type MutationDeletePartArgs = {
   input: DeletePartInput;
 };
 
+
 export type MutationDeleteUserArgs = {
   id: Scalars['ID'];
 };
 
+
 export type MutationDeleteVehicleArgs = {
   input: DeleteVehicleInput;
 };
+
 
 export type MutationSignInArgs = {
   login: Scalars['String'];
   password: Scalars['String'];
 };
 
-export type MutationSignUpArgs = {
-  username: Scalars['String'];
-  email: Scalars['String'];
-  password: Scalars['String'];
-  role?: Maybe<Scalars['String']>;
-};
-
-export type CreateCustomerInput = {
+export type CreateCustomer = {
   name: Scalars['String'];
   contact?: Maybe<Scalars['String']>;
   phone?: Maybe<Scalars['String']>;
@@ -144,12 +127,11 @@ export type CreateCustomerInput = {
   lineOne: Scalars['String'];
   lineTwo?: Maybe<Scalars['String']>;
   city: Scalars['String'];
-  role: Scalars['String'];
   country: Scalars['String'];
   postcode: Scalars['String'];
 };
 
-export type DeleteCustomerInput = {
+export type DeleteCustomer = {
   id: Scalars['ID'];
 };
 
@@ -170,7 +152,10 @@ export type Customer = {
 
 export enum Role {
   Admin = 'ADMIN',
-  User = 'USER',
+  Franchise = 'FRANCHISE',
+  Receptionist = 'RECEPTIONIST',
+  Mechanic = 'MECHANIC',
+  Foreperson = 'FOREPERSON'
 }
 
 export type PageInfo = {
@@ -182,20 +167,6 @@ export type PageInfo = {
 export type Subscription = {
   __typename?: 'Subscription';
   _?: Maybe<Scalars['Boolean']>;
-};
-
-export type MessageConnection = {
-  __typename?: 'MessageConnection';
-  edges: Array<Message>;
-  pageInfo: PageInfo;
-};
-
-export type Message = {
-  __typename?: 'Message';
-  id: Scalars['ID'];
-  text: Scalars['String'];
-  createdAt: Scalars['Date'];
-  user: User;
 };
 
 export type CreatePartInput = {
@@ -234,6 +205,13 @@ export type PartConnection = {
   pageInfo: PageInfo;
 };
 
+export enum UserRole {
+  Franchise = 'FRANCHISE',
+  Receptionist = 'RECEPTIONIST',
+  Mechanic = 'MECHANIC',
+  Foreperson = 'FOREPERSON'
+}
+
 export type Token = {
   __typename?: 'Token';
   token: Scalars['String'];
@@ -244,8 +222,14 @@ export type User = {
   id: Scalars['ID'];
   username: Scalars['String'];
   email: Scalars['String'];
-  role?: Maybe<Scalars['String']>;
-  messages?: Maybe<Array<Message>>;
+  role: UserRole;
+};
+
+export type CreateUser = {
+  username: Scalars['String'];
+  email: Scalars['String'];
+  role: UserRole;
+  password: Scalars['String'];
 };
 
 export type CreateVehicleInput = {
@@ -281,7 +265,10 @@ export type VehicleConnection = {
   pageInfo: PageInfo;
 };
 
+
+
 export type ResolverTypeWrapper<T> = Promise<T> | T;
+
 
 export type LegacyStitchingResolver<TResult, TParent, TContext, TArgs> = {
   fragment: string;
@@ -292,9 +279,7 @@ export type NewStitchingResolver<TResult, TParent, TContext, TArgs> = {
   selectionSet: string;
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type StitchingResolver<TResult, TParent, TContext, TArgs> =
-  | LegacyStitchingResolver<TResult, TParent, TContext, TArgs>
-  | NewStitchingResolver<TResult, TParent, TContext, TArgs>;
+export type StitchingResolver<TResult, TParent, TContext, TArgs> = LegacyStitchingResolver<TResult, TParent, TContext, TArgs> | NewStitchingResolver<TResult, TParent, TContext, TArgs>;
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
   | ResolverFn<TResult, TParent, TContext, TArgs>
   | StitchingResolver<TResult, TParent, TContext, TArgs>;
@@ -320,25 +305,9 @@ export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs
-> {
-  subscribe: SubscriptionSubscribeFn<
-    { [key in TKey]: TResult },
-    TParent,
-    TContext,
-    TArgs
-  >;
-  resolve?: SubscriptionResolveFn<
-    TResult,
-    { [key in TKey]: TResult },
-    TContext,
-    TArgs
-  >;
+export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
+  subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
+  resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
 
 export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
@@ -346,26 +315,12 @@ export interface SubscriptionResolverObject<TResult, TParent, TContext, TArgs> {
   resolve: SubscriptionResolveFn<TResult, any, TContext, TArgs>;
 }
 
-export type SubscriptionObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs
-> =
+export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, TArgs> =
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<
-  TResult,
-  TKey extends string,
-  TParent = {},
-  TContext = {},
-  TArgs = {}
-> =
-  | ((
-      ...args: any[]
-    ) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
+export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
+  | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
@@ -374,19 +329,11 @@ export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}> = (
-  obj: T,
-  info: GraphQLResolveInfo
-) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
-export type DirectiveResolverFn<
-  TResult = {},
-  TParent = {},
-  TContext = {},
-  TArgs = {}
-> = (
+export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs = {}> = (
   next: NextResolverFn<TResult>,
   parent: TParent,
   args: TArgs,
@@ -402,22 +349,21 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
-  CreateCustomerInput: CreateCustomerInput;
-  DeleteCustomerInput: DeleteCustomerInput;
+  CreateCustomer: CreateCustomer;
+  DeleteCustomer: DeleteCustomer;
   Customer: ResolverTypeWrapper<Customer>;
   Role: Role;
   PageInfo: ResolverTypeWrapper<PageInfo>;
-  Date: ResolverTypeWrapper<Scalars['Date']>;
   Subscription: ResolverTypeWrapper<{}>;
-  MessageConnection: ResolverTypeWrapper<MessageConnection>;
-  Message: ResolverTypeWrapper<Message>;
   CreatePartInput: CreatePartInput;
   DeletePartInput: DeletePartInput;
   PartByIdInput: PartByIdInput;
   Part: ResolverTypeWrapper<Part>;
   PartConnection: ResolverTypeWrapper<PartConnection>;
+  UserRole: UserRole;
   Token: ResolverTypeWrapper<Token>;
   User: ResolverTypeWrapper<User>;
+  CreateUser: CreateUser;
   CreateVehicleInput: CreateVehicleInput;
   DeleteVehicleInput: DeleteVehicleInput;
   VehicleByIdInput: VehicleByIdInput;
@@ -433,14 +379,11 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   Int: Scalars['Int'];
   Mutation: {};
-  CreateCustomerInput: CreateCustomerInput;
-  DeleteCustomerInput: DeleteCustomerInput;
+  CreateCustomer: CreateCustomer;
+  DeleteCustomer: DeleteCustomer;
   Customer: Customer;
   PageInfo: PageInfo;
-  Date: Scalars['Date'];
   Subscription: {};
-  MessageConnection: MessageConnection;
-  Message: Message;
   CreatePartInput: CreatePartInput;
   DeletePartInput: DeletePartInput;
   PartByIdInput: PartByIdInput;
@@ -448,6 +391,7 @@ export type ResolversParentTypes = {
   PartConnection: PartConnection;
   Token: Token;
   User: User;
+  CreateUser: CreateUser;
   CreateVehicleInput: CreateVehicleInput;
   DeleteVehicleInput: DeleteVehicleInput;
   VehicleByIdInput: VehicleByIdInput;
@@ -455,158 +399,37 @@ export type ResolversParentTypes = {
   VehicleConnection: VehicleConnection;
 };
 
-export type AuthDirectiveArgs = { requires?: Maybe<Role> };
+export type AuthDirectiveArgs = {   requires?: Maybe<Role>; };
 
-export type AuthDirectiveResolver<
-  Result,
-  Parent,
-  ContextType = MyContext,
-  Args = AuthDirectiveArgs
-> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type AuthDirectiveResolver<Result, Parent, ContextType = MyContext, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type QueryResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
-> = {
+export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  customer?: Resolver<
-    Maybe<ResolversTypes['Customer']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryCustomerArgs, 'id'>
-  >;
-  customers?: Resolver<
-    Maybe<Array<ResolversTypes['Customer']>>,
-    ParentType,
-    ContextType
-  >;
+  customer?: Resolver<Maybe<ResolversTypes['Customer']>, ParentType, ContextType, RequireFields<QueryCustomerArgs, 'id'>>;
+  customers?: Resolver<Maybe<Array<ResolversTypes['Customer']>>, ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  message?: Resolver<
-    ResolversTypes['Message'],
-    ParentType,
-    ContextType,
-    RequireFields<QueryMessageArgs, 'id'>
-  >;
-  messages?: Resolver<
-    ResolversTypes['MessageConnection'],
-    ParentType,
-    ContextType,
-    RequireFields<QueryMessagesArgs, never>
-  >;
-  part?: Resolver<
-    Maybe<ResolversTypes['Part']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryPartArgs, 'input'>
-  >;
-  parts?: Resolver<
-    ResolversTypes['PartConnection'],
-    ParentType,
-    ContextType,
-    RequireFields<QueryPartsArgs, never>
-  >;
-  user?: Resolver<
-    Maybe<ResolversTypes['User']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryUserArgs, 'id'>
-  >;
-  users?: Resolver<
-    Maybe<Array<ResolversTypes['User']>>,
-    ParentType,
-    ContextType
-  >;
-  vehicle?: Resolver<
-    Maybe<ResolversTypes['Vehicle']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryVehicleArgs, 'input'>
-  >;
-  vehicles?: Resolver<
-    ResolversTypes['VehicleConnection'],
-    ParentType,
-    ContextType,
-    RequireFields<QueryVehiclesArgs, never>
-  >;
+  part?: Resolver<Maybe<ResolversTypes['Part']>, ParentType, ContextType, RequireFields<QueryPartArgs, 'input'>>;
+  parts?: Resolver<ResolversTypes['PartConnection'], ParentType, ContextType, RequireFields<QueryPartsArgs, never>>;
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
+  users?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
+  vehicle?: Resolver<Maybe<ResolversTypes['Vehicle']>, ParentType, ContextType, RequireFields<QueryVehicleArgs, 'input'>>;
+  vehicles?: Resolver<ResolversTypes['VehicleConnection'], ParentType, ContextType, RequireFields<QueryVehiclesArgs, never>>;
 };
 
-export type MutationResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
-> = {
+export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  createCustomer?: Resolver<
-    ResolversTypes['Customer'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateCustomerArgs, 'input'>
-  >;
-  createMessage?: Resolver<
-    ResolversTypes['Message'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateMessageArgs, 'text'>
-  >;
-  createPart?: Resolver<
-    ResolversTypes['Part'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreatePartArgs, 'input'>
-  >;
-  createVehicle?: Resolver<
-    ResolversTypes['Vehicle'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateVehicleArgs, 'input'>
-  >;
-  deleteCustomer?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationDeleteCustomerArgs, 'input'>
-  >;
-  deleteMessage?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationDeleteMessageArgs, 'id'>
-  >;
-  deletePart?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationDeletePartArgs, 'input'>
-  >;
-  deleteUser?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationDeleteUserArgs, 'id'>
-  >;
-  deleteVehicle?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationDeleteVehicleArgs, 'input'>
-  >;
-  signIn?: Resolver<
-    ResolversTypes['Token'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationSignInArgs, 'login' | 'password'>
-  >;
-  signUp?: Resolver<
-    ResolversTypes['Token'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationSignUpArgs, 'username' | 'email' | 'password'>
-  >;
+  createCustomer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<MutationCreateCustomerArgs, 'input'>>;
+  createPart?: Resolver<ResolversTypes['Part'], ParentType, ContextType, RequireFields<MutationCreatePartArgs, 'input'>>;
+  createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  createVehicle?: Resolver<ResolversTypes['Vehicle'], ParentType, ContextType, RequireFields<MutationCreateVehicleArgs, 'input'>>;
+  deleteCustomer?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCustomerArgs, 'input'>>;
+  deletePart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeletePartArgs, 'input'>>;
+  deleteUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
+  deleteVehicle?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteVehicleArgs, 'input'>>;
+  signIn?: Resolver<ResolversTypes['Token'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'login' | 'password'>>;
 };
 
-export type CustomerResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['Customer'] = ResolversParentTypes['Customer']
-> = {
+export type CustomerResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Customer'] = ResolversParentTypes['Customer']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   contact?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -617,64 +440,21 @@ export type CustomerResolvers<
   city?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   country?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   postcode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  vehicles?: Resolver<
-    Maybe<Array<ResolversTypes['Vehicle']>>,
-    ParentType,
-    ContextType
-  >;
+  vehicles?: Resolver<Maybe<Array<ResolversTypes['Vehicle']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type PageInfoResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']
-> = {
+export type PageInfoResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['PageInfo'] = ResolversParentTypes['PageInfo']> = {
   hasNextPage?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   endCursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export interface DateScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
-  name: 'Date';
-}
-
-export type SubscriptionResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
-> = {
-  _?: SubscriptionResolver<
-    Maybe<ResolversTypes['Boolean']>,
-    '_',
-    ParentType,
-    ContextType
-  >;
+export type SubscriptionResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
+  _?: SubscriptionResolver<Maybe<ResolversTypes['Boolean']>, "_", ParentType, ContextType>;
 };
 
-export type MessageConnectionResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['MessageConnection'] = ResolversParentTypes['MessageConnection']
-> = {
-  edges?: Resolver<Array<ResolversTypes['Message']>, ParentType, ContextType>;
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
-export type MessageResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['Message'] = ResolversParentTypes['Message']
-> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
-export type PartResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['Part'] = ResolversParentTypes['Part']
-> = {
+export type PartResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Part'] = ResolversParentTypes['Part']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   quantity?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -686,43 +466,26 @@ export type PartResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type PartConnectionResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['PartConnection'] = ResolversParentTypes['PartConnection']
-> = {
+export type PartConnectionResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['PartConnection'] = ResolversParentTypes['PartConnection']> = {
   edges?: Resolver<Array<ResolversTypes['Part']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type TokenResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']
-> = {
+export type TokenResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Token'] = ResolversParentTypes['Token']> = {
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type UserResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
-> = {
+export type UserResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  role?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  messages?: Resolver<
-    Maybe<Array<ResolversTypes['Message']>>,
-    ParentType,
-    ContextType
-  >;
+  role?: Resolver<ResolversTypes['UserRole'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type VehicleResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['Vehicle'] = ResolversParentTypes['Vehicle']
-> = {
+export type VehicleResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Vehicle'] = ResolversParentTypes['Vehicle']> = {
   make?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   model?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   regNo?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -732,10 +495,7 @@ export type VehicleResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type VehicleConnectionResolvers<
-  ContextType = MyContext,
-  ParentType extends ResolversParentTypes['VehicleConnection'] = ResolversParentTypes['VehicleConnection']
-> = {
+export type VehicleConnectionResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['VehicleConnection'] = ResolversParentTypes['VehicleConnection']> = {
   edges?: Resolver<Array<ResolversTypes['Vehicle']>, ParentType, ContextType>;
   pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
@@ -746,10 +506,7 @@ export type Resolvers<ContextType = MyContext> = {
   Mutation?: MutationResolvers<ContextType>;
   Customer?: CustomerResolvers<ContextType>;
   PageInfo?: PageInfoResolvers<ContextType>;
-  Date?: GraphQLScalarType;
   Subscription?: SubscriptionResolvers<ContextType>;
-  MessageConnection?: MessageConnectionResolvers<ContextType>;
-  Message?: MessageResolvers<ContextType>;
   Part?: PartResolvers<ContextType>;
   PartConnection?: PartConnectionResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
@@ -757,6 +514,7 @@ export type Resolvers<ContextType = MyContext> = {
   Vehicle?: VehicleResolvers<ContextType>;
   VehicleConnection?: VehicleConnectionResolvers<ContextType>;
 };
+
 
 /**
  * @deprecated
@@ -767,10 +525,9 @@ export type DirectiveResolvers<ContextType = MyContext> = {
   auth?: AuthDirectiveResolver<any, any, ContextType>;
 };
 
+
 /**
  * @deprecated
  * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
  */
-export type IDirectiveResolvers<ContextType = MyContext> = DirectiveResolvers<
-  ContextType
->;
+export type IDirectiveResolvers<ContextType = MyContext> = DirectiveResolvers<ContextType>;
