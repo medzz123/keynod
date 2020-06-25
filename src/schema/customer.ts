@@ -2,14 +2,15 @@ import { gql } from 'apollo-server-express';
 
 const customerSchema = gql`
   extend type Query {
-    customers: [Customer!]
-    customer(id: ID!): Customer
+    customers: [Customer!] @auth(requires: RECEPTIONIST)
+    customer(id: ID!): Customer @auth(requires: RECEPTIONIST)
   }
 
   extend type Mutation {
     createCustomer(input: CreateCustomer!): Customer!
+      @auth(requires: RECEPTIONIST)
 
-    deleteCustomer(input: DeleteCustomer!): Boolean! @auth(requires: ADMIN)
+    deleteCustomer(input: DeleteCustomer!): Boolean! @auth(requires: FOREPERSON)
   }
 
   input CreateCustomer {

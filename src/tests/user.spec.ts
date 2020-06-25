@@ -12,8 +12,8 @@ describe('users', () => {
           },
         },
       } = await userApi.signIn({
-        login: 'receptionist',
-        password: 'bugendo',
+        login: 'super',
+        password: 'MasterKey',
       });
 
       const result = await userApi.user({ id: '1' }, token);
@@ -35,8 +35,8 @@ describe('users', () => {
           },
         },
       } = await userApi.signIn({
-        login: 'receptionist',
-        password: 'bugendo',
+        login: 'super',
+        password: 'MasterKey',
       });
 
       const result = await userApi.user({ id: '1234' }, token);
