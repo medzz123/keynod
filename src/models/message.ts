@@ -1,21 +1,30 @@
-const message = (sequelize, DataTypes) => {
-  const Message = sequelize.define('message', {
+import { BuildOptions, DataTypes, Model } from 'sequelize';
+
+import sequelize from '../db';
+
+class Message extends Model {
+  public id: string;
+  public text: string;
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+}
+
+Message.init(
+  {
     text: {
       type: DataTypes.STRING,
       validate: {
         notEmpty: {
-          args: true,
           msg: 'A message has to have a text.',
         },
       },
     },
-  });
+  },
+  { sequelize, modelName: 'message' }
+);
 
-  Message.associate = (models) => {
-    Message.belongsTo(models.User);
-  };
-
-  return Message;
+export type MessageModelStatic = typeof Model & {
+  new (values?: Record<string, unknown>, options?: BuildOptions): Message;
 };
 
-export default message;
+export default Message as MessageModelStatic;

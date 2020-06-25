@@ -6,7 +6,8 @@ import { constraintDirective } from 'graphql-constraint-directive';
 import depthLimit from 'graphql-depth-limit';
 import { makeExecutableSchema } from 'graphql-tools';
 
-import models, { sequelize } from './models';
+import sequelize from './db';
+import models from './models';
 import resolvers from './resolvers';
 import typeDefs from './schema';
 import { formatError, getMe } from './utils';

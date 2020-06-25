@@ -1,5 +1,25 @@
-const customer = (sequelize, DataTypes) => {
-  const Customer = sequelize.define('customer', {
+import { BuildOptions, DataTypes, Model } from 'sequelize';
+
+import sequelize from '../db';
+import Vehicle from './vehicle';
+
+class Customer extends Model {
+  public id: string;
+  public name: string;
+  public contact: string;
+  public phone: string;
+  public email: string;
+  public lineOne: string;
+  public lineTwo: string;
+  public city: string;
+  public country: string;
+  public postcode: string;
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+}
+
+Customer.init(
+  {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -51,13 +71,15 @@ const customer = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-  });
+  },
+  { sequelize, modelName: 'customer' }
+);
 
-  Customer.associate = (models) => {
-    Customer.hasMany(models.Vehicle, { onDelete: 'CASCADE' });
-  };
+Customer.hasMany(Vehicle, { onDelete: 'CASCADE' });
+Vehicle.belongsTo(Customer);
 
-  return Customer;
+export type CustomerModelStatic = typeof Model & {
+  new (values?: Record<string, unknown>, options?: BuildOptions): Customer;
 };
 
-export default customer;
+export default Customer as CustomerModelStatic;

@@ -1,5 +1,22 @@
-const part = (sequelize, DataTypes) => {
-  const Part = sequelize.define('part', {
+import { BuildOptions, DataTypes, Model } from 'sequelize';
+
+import sequelize from '../db';
+
+class Part extends Model {
+  public id: string;
+  public name: string;
+  public quantity: number;
+  public price: string;
+  public manufacturer: string;
+  public description: string;
+  public vehicleType: string;
+  public threshold: number;
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+}
+
+Part.init(
+  {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -46,9 +63,12 @@ const part = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-  });
+  },
+  { sequelize, modelName: 'part' }
+);
 
-  return Part;
+export type PartModelStatic = typeof Model & {
+  new (values?: Record<string, unknown>, options?: BuildOptions): Part;
 };
 
-export default part;
+export default Part as PartModelStatic;

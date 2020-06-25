@@ -43,7 +43,7 @@ export default {
     signIn: async (parent, args, context: Context) => {
       const { login, password } = args;
       const { models, secret } = context;
-      const user = await models.User.findByLogin(login);
+      const user = await models.User.prototype.findByLogin(login);
 
       if (!user) {
         throw new UserInputError('No user found with this login credentials.');

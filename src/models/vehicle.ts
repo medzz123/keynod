@@ -1,5 +1,16 @@
-const vehicle = (sequelize, DataTypes) => {
-  const Vehicle = sequelize.define('vehicle', {
+import { BuildOptions, DataTypes, Model } from 'sequelize';
+
+import sequelize from '../db';
+
+class Vehicle extends Model {
+  public id: string;
+  public text: string;
+  public readonly createdAt: Date;
+  public readonly updatedAt: Date;
+}
+
+Vehicle.init(
+  {
     regNo: {
       type: DataTypes.STRING,
       primaryKey: true,
@@ -32,13 +43,12 @@ const vehicle = (sequelize, DataTypes) => {
         notEmpty: true,
       },
     },
-  });
+  },
+  { sequelize, modelName: 'vehicle' }
+);
 
-  Vehicle.associate = (models) => {
-    Vehicle.belongsTo(models.Customer);
-  };
-
-  return Vehicle;
+export type VehicleModelStatic = typeof Model & {
+  new (values?: Record<string, unknown>, options?: BuildOptions): Vehicle;
 };
 
-export default vehicle;
+export default Vehicle as VehicleModelStatic;

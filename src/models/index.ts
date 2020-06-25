@@ -1,40 +1,21 @@
-import Sequelize from 'sequelize';
+import Customer, { CustomerModelStatic } from './customer';
+import Message, { MessageModelStatic } from './message';
+import Part, { PartModelStatic } from './part';
+import User, { UserModelStatic } from './user';
+import Vehicle, { VehicleModelStatic } from './vehicle';
 
-import { environmentVariables } from '../utils/env';
-
-let sequelize;
-
-if (environmentVariables.IS_PRODUCTION) {
-  // @ts-ignore
-  sequelize = new Sequelize(environmentVariables.DATABASE_URL, {
-    dialect: 'postgres',
-  });
-} else {
-  // @ts-ignore
-  sequelize = new Sequelize(
-    environmentVariables.TEST_DATABASE || environmentVariables.DATABASE,
-    environmentVariables.DATABASE_USER,
-    environmentVariables.DATABASE_PASSWORD,
-    {
-      dialect: 'postgres',
-    }
-  );
-}
-
-const models = {
-  User: sequelize.import('./user'),
-  Message: sequelize.import('./message'),
-  Customer: sequelize.import('./customer'),
-  Vehicle: sequelize.import('./vehicle'),
-  Part: sequelize.import('./part'),
+export default {
+  Part,
+  Customer,
+  Message,
+  User,
+  Vehicle,
 };
 
-Object.keys(models).forEach((key) => {
-  if ('associate' in models[key]) {
-    models[key].associate(models);
-  }
-});
-
-export { sequelize };
-
-export default models;
+export interface ModelType {
+  Part: PartModelStatic;
+  Customer: CustomerModelStatic;
+  Vehicle: VehicleModelStatic;
+  Message: MessageModelStatic;
+  User: UserModelStatic;
+}
