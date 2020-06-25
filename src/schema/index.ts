@@ -1,10 +1,10 @@
-import { gql } from "apollo-server-express";
-import { constraintDirectiveTypeDefs } from "graphql-constraint-directive";
+import { gql } from 'apollo-server-express';
+import { constraintDirectiveTypeDefs } from 'graphql-constraint-directive';
 
-import userSchema from "./user";
-import messageSchema from "./message";
-import customerSchema from "./customer";
-import vehicleSchema from "./vehicle";
+import customerSchema from './customer';
+import messageSchema from './message';
+import userSchema from './user';
+import vehicleSchema from './vehicle';
 
 const linkSchema = gql`
   directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION

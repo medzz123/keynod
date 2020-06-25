@@ -1,10 +1,10 @@
-import { ForbiddenError } from "apollo-server";
+import { ForbiddenError } from 'apollo-server';
 
 export const isAuthenticated = (args, context) => {
   const { me } = context;
 
   if (!me) {
-    throw new ForbiddenError("Not authenticated as user.");
+    throw new ForbiddenError('Not authenticated as user.');
   }
 };
 
@@ -15,7 +15,7 @@ export const isRole = (args, context, requiredRole) => {
     me: { role },
   } = context;
 
-  if (role === "ADMIN") {
+  if (role === 'ADMIN') {
     return;
   }
 
@@ -31,6 +31,6 @@ export const isMessageOwner = async (args, context) => {
   const message = await models.Message.findByPk(id, { raw: true });
 
   if (message.userId !== me.id) {
-    throw new ForbiddenError("Not authenticated as owner.");
+    throw new ForbiddenError('Not authenticated as owner.');
   }
 };

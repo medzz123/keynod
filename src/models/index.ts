@@ -1,33 +1,35 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
+
+import { environmentVariables } from '../utils/env';
 
 let sequelize;
 
-if (process.env.DATABASE_URL) {
+if (environmentVariables.IS_PRODUCTION) {
   // @ts-ignore
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: "postgres",
+  sequelize = new Sequelize(environmentVariables.DATABASE_URL, {
+    dialect: 'postgres',
   });
 } else {
   // @ts-ignore
   sequelize = new Sequelize(
-    process.env.TEST_DATABASE || process.env.DATABASE,
-    process.env.DATABASE_USER,
-    process.env.DATABASE_PASSWORD,
+    environmentVariables.TEST_DATABASE || environmentVariables.DATABASE,
+    environmentVariables.DATABASE_USER,
+    environmentVariables.DATABASE_PASSWORD,
     {
-      dialect: "postgres",
+      dialect: 'postgres',
     }
   );
 }
 
 const models = {
-  User: sequelize.import("./user"),
-  Message: sequelize.import("./message"),
-  Customer: sequelize.import("./customer"),
-  Vehicle: sequelize.import("./vehicle"),
+  User: sequelize.import('./user'),
+  Message: sequelize.import('./message'),
+  Customer: sequelize.import('./customer'),
+  Vehicle: sequelize.import('./vehicle'),
 };
 
 Object.keys(models).forEach((key) => {
-  if ("associate" in models[key]) {
+  if ('associate' in models[key]) {
     models[key].associate(models);
   }
 });

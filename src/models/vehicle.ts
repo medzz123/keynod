@@ -1,5 +1,5 @@
 const vehicle = (sequelize, DataTypes) => {
-  const Vehicle = sequelize.define("vehicle", {
+  const Vehicle = sequelize.define('vehicle', {
     regNo: {
       type: DataTypes.STRING,
       primaryKey: true,

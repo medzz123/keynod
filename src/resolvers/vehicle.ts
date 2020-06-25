@@ -1,7 +1,7 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
-import { Context } from "../typings/context";
-import { fromCursorHash, toCursorHash } from "../utils";
+import { Context } from '../typings/context';
+import { fromCursorHash, toCursorHash } from '../utils';
 
 export default {
   Query: {
@@ -20,7 +20,7 @@ export default {
         : {};
 
       const vehicles = await models.Vehicle.findAll({
-        order: [["createdAt", "DESC"]],
+        order: [['createdAt', 'DESC']],
         limit: limit + 1,
         ...cursorOptions,
       });

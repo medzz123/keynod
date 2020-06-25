@@ -1,4 +1,4 @@
-import { Context } from "../typings/context";
+import { Context } from '../typings/context';
 
 export default {
   Query: {

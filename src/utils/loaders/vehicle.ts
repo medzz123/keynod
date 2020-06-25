@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
 export const batchVehicles = async (keys, models) => {
   const vehicles = await models.Vehicle.findAll({

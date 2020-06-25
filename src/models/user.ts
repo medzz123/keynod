@@ -1,7 +1,7 @@
-import bcrypt from "bcrypt";
+import bcrypt from 'bcrypt';
 
 const user = (sequelize, DataTypes) => {
-  const User = sequelize.define("user", {
+  const User = sequelize.define('user', {
     username: {
       type: DataTypes.STRING,
       unique: true,
@@ -33,7 +33,7 @@ const user = (sequelize, DataTypes) => {
   });
 
   User.associate = (models) => {
-    User.hasMany(models.Message, { onDelete: "CASCADE" });
+    User.hasMany(models.Message, { onDelete: 'CASCADE' });
   };
 
   User.findByLogin = async (login) => {

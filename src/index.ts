@@ -1,21 +1,19 @@
-import "dotenv/config";
+import { ApolloServer } from 'apollo-server-express';
+import cors from 'cors';
+import DataLoader from 'dataloader';
+import express from 'express';
+import { constraintDirective } from 'graphql-constraint-directive';
+import depthLimit from 'graphql-depth-limit';
+import { makeExecutableSchema } from 'graphql-tools';
 
-import cors from "cors";
-import express from "express";
-import { ApolloServer } from "apollo-server-express";
-import DataLoader from "dataloader";
-import { constraintDirective } from "graphql-constraint-directive";
-import { makeExecutableSchema } from "graphql-tools";
-import depthLimit from "graphql-depth-limit";
-
-import resolvers from "./resolvers";
-import typeDefs from "./schema";
-import models, { sequelize } from "./models";
-import loaders from "./loaders";
-import env from "./env";
-import { formatError, getMe } from "./utils";
-import { createUsersWithMessages } from "./seed";
-import AuthDirective from "./directives/AuthorizationDirective";
+import models, { sequelize } from './models';
+import resolvers from './resolvers';
+import typeDefs from './schema';
+import { formatError, getMe } from './utils';
+import AuthDirective from './utils/directives/AuthorizationDirective';
+import { environmentVariables } from './utils/env';
+import loaders from './utils/loaders';
+import { createUsersWithMessages } from './utils/seed';
 
 const app = express();
 
@@ -33,7 +31,7 @@ const server = new ApolloServer({
   schema,
   introspection: true,
   playground: true,
-  tracing: env.DEBUG,
+  tracing: environmentVariables.DEBUG,
   validationRules: [depthLimit(5)],
   formatError,
   // @ts-ignore
@@ -44,7 +42,7 @@ const server = new ApolloServer({
       return {
         models,
         me,
-        secret: process.env.SECRET,
+        secret: environmentVariables.SECRET,
         loaders: {
           user: new DataLoader((keys) => loaders.user.batchUsers(keys, models)),
           vehicle: new DataLoader((keys) =>
@@ -59,14 +57,20 @@ const server = new ApolloServer({
   },
 });
 
-server.applyMiddleware({ app, path: "/" });
+server.applyMiddleware({ app, path: '/' });
 
-sequelize.sync({ force: env.IS_TEST || env.RESET_DB }).then(async () => {
-  if (env.IS_TEST || env.RESET_DB) {
-    createUsersWithMessages();
-  }
+sequelize
+  .sync({
+    force: environmentVariables.IS_TEST || environmentVariables.RESET_DB,
+  })
+  .then(async () => {
+    if (environmentVariables.IS_TEST || environmentVariables.RESET_DB) {
+      createUsersWithMessages();
+    }
 
-  app.listen({ port: env.PORT }, () => {
-    console.log(`Apollo Server running on http://localhost:${env.PORT}/`);
+    app.listen({ port: environmentVariables.PORT }, () => {
+      console.log(
+        `Apollo Server running on http://localhost:${environmentVariables.PORT}/`
+      );
+    });
   });
-});

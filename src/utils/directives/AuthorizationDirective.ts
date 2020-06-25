@@ -1,6 +1,7 @@
-import { SchemaDirectiveVisitor } from "apollo-server";
-import { defaultFieldResolver } from "graphql";
-import { isRole } from "../auth";
+import { SchemaDirectiveVisitor } from 'apollo-server';
+import { defaultFieldResolver } from 'graphql';
+
+import { isRole } from '../auth';
 
 class AuthDirective extends SchemaDirectiveVisitor {
   visitObject(type) {

@@ -1,5 +1,5 @@
 const customer = (sequelize, DataTypes) => {
-  const Customer = sequelize.define("customer", {
+  const Customer = sequelize.define('customer', {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -54,7 +54,7 @@ const customer = (sequelize, DataTypes) => {
   });
 
   Customer.associate = (models) => {
-    Customer.hasMany(models.Vehicle, { onDelete: "CASCADE" });
+    Customer.hasMany(models.Vehicle, { onDelete: 'CASCADE' });
   };
 
   return Customer;

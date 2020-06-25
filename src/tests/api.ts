@@ -1,7 +1,8 @@
-import axios from "axios";
-import env from "../env";
+import axios from 'axios';
 
-const API_URL = `http://localhost:${env.PORT}/graphql`;
+import { environmentVariables } from '../utils/env';
+
+const API_URL = `http://localhost:${environmentVariables.PORT}/graphql`;
 
 export const user = async (variables) =>
   axios.post(API_URL, {
@@ -43,7 +44,7 @@ export const deleteUser = async (variables, token) =>
     },
     {
       headers: {
-        "x-token": token,
+        'x-token': token,
       },
     }
   );

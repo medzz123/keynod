@@ -1,9 +1,9 @@
-import { combineResolvers } from "graphql-resolvers";
-import Sequelize from "sequelize";
+import { combineResolvers } from 'graphql-resolvers';
+import Sequelize from 'sequelize';
 
-import { isMessageOwner } from "./authorization";
-import { Context } from "../typings/context";
-import { fromCursorHash, toCursorHash } from "../utils";
+import { Context } from '../typings/context';
+import { fromCursorHash, toCursorHash } from '../utils';
+import { isMessageOwner } from './authorization';
 
 export default {
   Query: {
@@ -21,7 +21,7 @@ export default {
         : {};
 
       const messages = await models.Message.findAll({
-        order: [["createdAt", "DESC"]],
+        order: [['createdAt', 'DESC']],
         limit: limit + 1,
         ...cursorOptions,
       });

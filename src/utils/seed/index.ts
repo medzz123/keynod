@@ -1,5 +1,5 @@
-import models from "../models";
-import { getUsers, getCustomers } from "./getData";
+import models from '../../models';
+import { getCustomers, getUsers } from './getData';
 
 export const createUsersWithMessages = async () => {
   const users = await getUsers();
@@ -7,13 +7,13 @@ export const createUsersWithMessages = async () => {
 
   await models.User.create(
     {
-      username: "ugendo",
-      role: "ADMIN",
-      email: "ugendo@hello.com",
-      password: "bugendo",
+      username: 'ugendo',
+      role: 'ADMIN',
+      email: 'ugendo@hello.com',
+      password: 'bugendo',
       messages: [
         {
-          text: "Sup",
+          text: 'Sup',
           createdAt: new Date(),
         },
       ],

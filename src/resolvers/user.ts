@@ -1,9 +1,9 @@
-import { combineResolvers } from "graphql-resolvers";
-import { AuthenticationError, UserInputError } from "apollo-server";
+import { AuthenticationError, UserInputError } from 'apollo-server';
+import { combineResolvers } from 'graphql-resolvers';
 
-import { isAdmin } from "./authorization";
-import { Context } from "../typings/context";
-import { createToken } from "../utils";
+import { Context } from '../typings/context';
+import { createToken } from '../utils';
+import { isAdmin } from './authorization';
 
 export default {
   Query: {
@@ -28,7 +28,7 @@ export default {
 
   Mutation: {
     signUp: async (parent, args, context: Context) => {
-      const { username, email, password, role = "USER" } = args;
+      const { username, email, password, role = 'USER' } = args;
       const { models, secret } = context;
       const user = await models.User.create({
         username,
@@ -37,7 +37,7 @@ export default {
         role,
       });
 
-      return { token: createToken(user, secret, "30m") };
+      return { token: createToken(user, secret, '30m') };
     },
 
     signIn: async (parent, args, context: Context) => {
@@ -46,16 +46,16 @@ export default {
       const user = await models.User.findByLogin(login);
 
       if (!user) {
-        throw new UserInputError("No user found with this login credentials.");
+        throw new UserInputError('No user found with this login credentials.');
       }
 
       const isValid = await user.validatePassword(password);
 
       if (!isValid) {
-        throw new AuthenticationError("Invalid password.");
+        throw new AuthenticationError('Invalid password.');
       }
 
-      return { token: createToken(user, secret, "30m") };
+      return { token: createToken(user, secret, '30m') };
     },
 
     deleteUser: combineResolvers(
