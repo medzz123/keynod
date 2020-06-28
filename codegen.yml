@@ -3,7 +3,7 @@ schema:
 generates:
   ./src/typings/generated.ts:
     config: 
-      contextType: ./context#MyContext
+      contextType: ./types#MyContext
     plugins:
       - typescript
       - typescript-resolvers
