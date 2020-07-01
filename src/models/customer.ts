@@ -1,19 +1,15 @@
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
-import Vehicle from './vehicle';
 
 export class Customer extends Model {
-  public id: string;
   public name: string;
-  public contact: string;
   public phone: string;
   public email: string;
-  public lineOne: string;
-  public lineTwo: string;
-  public city: string;
-  public country: string;
-  public postcode: string;
+  public address: string;
+
+  // Generated
+  public readonly id: string;
   public readonly createdAt: Date;
   public readonly updatedAt: Date;
 }
@@ -27,9 +23,6 @@ Customer.init(
         notEmpty: true,
       },
     },
-    contact: {
-      type: DataTypes.STRING,
-    },
     phone: {
       type: DataTypes.STRING,
     },
@@ -40,31 +33,7 @@ Customer.init(
         notEmpty: true,
       },
     },
-    lineOne: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    lineTwo: {
-      type: DataTypes.STRING,
-    },
-    city: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    country: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    postcode: {
+    address: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -74,9 +43,6 @@ Customer.init(
   },
   { sequelize, modelName: 'customer' }
 );
-
-Customer.hasMany(Vehicle, { onDelete: 'CASCADE' });
-Vehicle.belongsTo(Customer);
 
 export type CustomerModelStatic = typeof Model & {
   new (values?: Record<string, unknown>, options?: BuildOptions): Customer;
