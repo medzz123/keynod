@@ -1,8 +1,7 @@
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
-import Job from './job';
-import User from './user';
+import PartsUsed from './partsUsed';
 
 export class TaskManager extends Model {
   public duration: number;
@@ -38,10 +37,8 @@ TaskManager.init(
   { sequelize, modelName: 'taskManager' }
 );
 
-TaskManager.belongsTo(User);
-User.hasMany(TaskManager);
-
-TaskManager.hasOne(Job);
+TaskManager.hasMany(PartsUsed);
+PartsUsed.belongsTo(TaskManager);
 
 export type TaskManagerModelStatic = typeof Model & {
   new (values?: Record<string, unknown>, options?: BuildOptions): TaskManager;

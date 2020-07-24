@@ -1,7 +1,7 @@
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
-import Customer from './customer';
+import Job from './job';
 
 export class Vehicle extends Model {
   public model: string;
@@ -36,8 +36,8 @@ Vehicle.init(
   { sequelize, modelName: 'vehicle' }
 );
 
-Vehicle.belongsTo(Customer);
-Customer.hasMany(Vehicle, { onDelete: 'CASCADE' });
+Vehicle.hasOne(Job);
+Job.belongsTo(Vehicle);
 
 export type VehicleModelStatic = typeof Model & {
   new (values?: Record<string, unknown>, options?: BuildOptions): Vehicle;

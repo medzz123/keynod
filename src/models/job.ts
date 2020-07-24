@@ -1,6 +1,9 @@
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
+import JobManager from './jobManager';
+import Payment from './payment';
+import TaskManager from './taskManager';
 
 enum JobStatus {
   COMPLETE = 'COMPLETE',
@@ -73,6 +76,15 @@ Job.init(
   },
   { sequelize, modelName: 'job' }
 );
+
+Job.hasOne(TaskManager);
+TaskManager.belongsTo(Job);
+
+Job.hasMany(JobManager);
+JobManager.belongsTo(Job);
+
+Job.hasOne(Payment);
+Payment.belongsTo(Job);
 
 export type JobModelStatic = typeof Model & {
   new (values?: Record<string, unknown>, options?: BuildOptions): Job;

@@ -1,6 +1,7 @@
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
+import PartsUsed from './partsUsed';
 
 class Part extends Model {
   public name: string;
@@ -55,6 +56,9 @@ Part.init(
   },
   { sequelize, modelName: 'part' }
 );
+
+Part.hasMany(PartsUsed);
+PartsUsed.belongsTo(Part);
 
 export type PartModelStatic = typeof Model & {
   new (values?: Record<string, unknown>, options?: BuildOptions): Part;

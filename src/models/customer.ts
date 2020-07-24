@@ -1,6 +1,8 @@
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
+import Payment from './payment';
+import Vehicle from './vehicle';
 
 export class Customer extends Model {
   public name: string;
@@ -43,6 +45,12 @@ Customer.init(
   },
   { sequelize, modelName: 'customer' }
 );
+
+Customer.hasMany(Vehicle);
+Vehicle.belongsTo(Customer);
+
+Customer.hasMany(Payment);
+Payment.belongsTo(Customer);
 
 export type CustomerModelStatic = typeof Model & {
   new (values?: Record<string, unknown>, options?: BuildOptions): Customer;

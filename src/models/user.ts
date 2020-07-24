@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt';
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
+import JobManager from './jobManager';
+import TaskManager from './taskManager';
 
 enum UserRoles {
   ADMIN = 'ADMIN',
@@ -69,6 +71,12 @@ User.init(
   },
   { sequelize, modelName: 'user' }
 );
+
+User.hasMany(TaskManager);
+TaskManager.belongsTo(User);
+
+User.hasMany(JobManager);
+JobManager.belongsTo(User);
 
 User.beforeCreate(async (user) => {
   user.password = await user.generatePasswordHash();
