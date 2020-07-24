@@ -3,7 +3,7 @@ import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
 import JobManager from './jobManager';
-import TaskManager from './taskManager';
+import Task from './task';
 
 enum UserRoles {
   ADMIN = 'ADMIN',
@@ -72,8 +72,8 @@ User.init(
   { sequelize, modelName: 'user' }
 );
 
-User.hasMany(TaskManager);
-TaskManager.belongsTo(User);
+User.hasMany(Task);
+Task.belongsTo(User);
 
 User.hasMany(JobManager);
 JobManager.belongsTo(User);

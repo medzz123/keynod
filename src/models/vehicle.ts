@@ -36,7 +36,7 @@ Vehicle.init(
   { sequelize, modelName: 'vehicle' }
 );
 
-Vehicle.hasOne(Job);
+Vehicle.hasMany(Job);
 Job.belongsTo(Vehicle);
 
 export type VehicleModelStatic = typeof Model & {

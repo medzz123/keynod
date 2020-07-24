@@ -2,7 +2,10 @@ import { gql } from 'apollo-server-express';
 import { constraintDirectiveTypeDefs } from 'graphql-constraint-directive';
 
 import customerSchema from './customer';
+import jobSchema from './job';
 import partSchema from './part';
+import paymentSchema from './payment';
+import taskSchema from './task';
 import userSchema from './user';
 import vehicleSchema from './vehicle';
 
@@ -42,5 +45,8 @@ export default [
   customerSchema,
   vehicleSchema,
   partSchema,
+  jobSchema,
+  paymentSchema,
+  taskSchema,
   constraintDirectiveTypeDefs,
 ];

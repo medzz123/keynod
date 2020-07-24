@@ -3,7 +3,7 @@ import { BuildOptions, DataTypes, Model } from 'sequelize';
 import sequelize from '../db';
 import PartsUsed from './partsUsed';
 
-export class TaskManager extends Model {
+export class Task extends Model {
   public duration: number;
   public description: string;
 
@@ -17,7 +17,7 @@ export class TaskManager extends Model {
   public readonly jobId: string;
 }
 
-TaskManager.init(
+Task.init(
   {
     duration: {
       type: DataTypes.INTEGER,
@@ -34,14 +34,14 @@ TaskManager.init(
       },
     },
   },
-  { sequelize, modelName: 'taskManager' }
+  { sequelize, modelName: 'task' }
 );
 
-TaskManager.hasMany(PartsUsed);
-PartsUsed.belongsTo(TaskManager);
+Task.hasMany(PartsUsed);
+PartsUsed.belongsTo(Task);
 
-export type TaskManagerModelStatic = typeof Model & {
-  new (values?: Record<string, unknown>, options?: BuildOptions): TaskManager;
+export type TaskModelStatic = typeof Model & {
+  new (values?: Record<string, unknown>, options?: BuildOptions): Task;
 };
 
-export default TaskManager as TaskManagerModelStatic;
+export default Task as TaskModelStatic;

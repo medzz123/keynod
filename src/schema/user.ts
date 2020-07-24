@@ -28,6 +28,8 @@ const userSchema = gql`
     signIn(login: String!, password: String!): Token!
 
     deleteUser(id: ID!): Boolean! @auth(requires: ADMIN)
+
+    assignJob(input: AssignJob!): User!
   }
 
   type Token {
@@ -39,6 +41,7 @@ const userSchema = gql`
     username: String!
     email: String!
     role: UserRole!
+    jobs: [Job!]
   }
 
   input CreateUser {
@@ -46,6 +49,11 @@ const userSchema = gql`
     email: String! @constraint(format: "email")
     role: UserRoleInput!
     password: String! @constraint(minLength: 5, maxLength: 20)
+  }
+
+  input AssignJob {
+    userId: ID!
+    jobId: ID!
   }
 `;
 

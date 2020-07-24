@@ -4,7 +4,7 @@ import JobManager, { JobManagerModelStatic } from './jobManager';
 import Part, { PartModelStatic } from './part';
 import PartsUsed, { PartsUsedModelStatic } from './partsUsed';
 import Payment, { PaymentModelStatic } from './payment';
-import TaskManager, { TaskManagerModelStatic } from './taskManager';
+import Task, { TaskModelStatic } from './task';
 import User, { UserModelStatic } from './user';
 import Vehicle, { VehicleModelStatic } from './vehicle';
 export default {
@@ -13,7 +13,7 @@ export default {
   User,
   Vehicle,
   JobManager,
-  TaskManager,
+  Task,
   PartsUsed,
   Job,
   Payment,
@@ -25,7 +25,7 @@ export interface ModelsType {
   Vehicle: VehicleModelStatic;
   User: UserModelStatic;
   JobManager: JobManagerModelStatic;
-  TaskManager: TaskManagerModelStatic;
+  Task: TaskModelStatic;
   PartsUsed: PartsUsedModelStatic;
   Job: JobModelStatic;
   Payment: PaymentModelStatic;

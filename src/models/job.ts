@@ -3,7 +3,7 @@ import { BuildOptions, DataTypes, Model } from 'sequelize';
 import sequelize from '../db';
 import JobManager from './jobManager';
 import Payment from './payment';
-import TaskManager from './taskManager';
+import Task from './task';
 
 enum JobStatus {
   COMPLETE = 'COMPLETE',
@@ -77,8 +77,8 @@ Job.init(
   { sequelize, modelName: 'job' }
 );
 
-Job.hasOne(TaskManager);
-TaskManager.belongsTo(Job);
+Job.hasOne(Task);
+Task.belongsTo(Job);
 
 Job.hasMany(JobManager);
 JobManager.belongsTo(Job);
