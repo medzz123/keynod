@@ -1,16 +1,17 @@
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
+import PartsUsed from './partsUsed';
 
 class Part extends Model {
-  public id: string;
   public name: string;
   public quantity: number;
   public price: string;
-  public manufacturer: string;
   public description: string;
-  public vehicleType: string;
   public threshold: number;
+
+  // Generated
+  public readonly id: string;
   public readonly createdAt: Date;
   public readonly updatedAt: Date;
 }
@@ -32,14 +33,7 @@ Part.init(
       },
     },
     price: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    manufacturer: {
-      type: DataTypes.STRING,
+      type: DataTypes.DECIMAL,
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -48,10 +42,6 @@ Part.init(
     description: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
-    vehicleType: {
-      type: DataTypes.STRING,
-      allowNull: false,
       validate: {
         notEmpty: true,
       },
@@ -66,6 +56,9 @@ Part.init(
   },
   { sequelize, modelName: 'part' }
 );
+
+Part.hasMany(PartsUsed);
+PartsUsed.belongsTo(Part);
 
 export type PartModelStatic = typeof Model & {
   new (values?: Record<string, unknown>, options?: BuildOptions): Part;

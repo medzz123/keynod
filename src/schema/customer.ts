@@ -10,37 +10,24 @@ const customerSchema = gql`
     createCustomer(input: CreateCustomer!): Customer!
       @auth(requires: RECEPTIONIST)
 
-    deleteCustomer(input: DeleteCustomer!): Boolean! @auth(requires: FOREPERSON)
+    deleteCustomer(id: ID!): Boolean! @auth(requires: FOREPERSON)
   }
 
   input CreateCustomer {
     name: String!
-    contact: String
     phone: String
     email: String! @constraint(format: "email")
-    lineOne: String!
-    lineTwo: String
-    city: String!
-    country: String!
-    postcode: String!
-  }
-
-  input DeleteCustomer {
-    id: ID!
+    address: String!
   }
 
   type Customer {
     id: ID!
     name: String!
-    contact: String
-    phone: String
+    phone: String!
     email: String!
-    lineOne: String!
-    lineTwo: String
-    city: String!
-    country: String!
-    postcode: String!
+    address: String!
     vehicles: [Vehicle!]
+    payments: [Payment!]
   }
 `;
 

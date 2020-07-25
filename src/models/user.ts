@@ -2,13 +2,25 @@ import bcrypt from 'bcrypt';
 import { BuildOptions, DataTypes, Model } from 'sequelize';
 
 import sequelize from '../db';
+import JobManager from './jobManager';
+import Task from './task';
+
+enum UserRoles {
+  ADMIN = 'ADMIN',
+  Franchise = 'FRANCHISE',
+  RECEPTIONIST = 'RECEPTIONIST',
+  MECHANIC = 'MECHANIC',
+  FOREPERSON = 'FOREPERSON',
+}
 
 export class User extends Model {
-  public id: string;
   public username: string;
   public email: string;
   public password: string;
-  public role: string;
+  public role: UserRoles;
+
+  // Generated
+  public readonly id: string;
   public readonly createdAt: Date;
   public readonly updatedAt: Date;
 
@@ -48,13 +60,9 @@ User.init(
       },
     },
     role: {
-      type: DataTypes.ENUM(
-        'ADMIN',
-        'FRANCHISE',
-        'RECEPTIONIST',
-        'MECHANIC',
-        'FOREPERSON'
-      ),
+      type: DataTypes.ENUM({
+        values: Object.values(UserRoles),
+      }),
       allowNull: false,
       validate: {
         notEmpty: true,
@@ -63,6 +71,12 @@ User.init(
   },
   { sequelize, modelName: 'user' }
 );
+
+User.hasMany(Task);
+Task.belongsTo(User);
+
+User.hasMany(JobManager);
+JobManager.belongsTo(User);
 
 User.beforeCreate(async (user) => {
   user.password = await user.generatePasswordHash();

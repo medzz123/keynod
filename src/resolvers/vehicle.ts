@@ -37,11 +37,9 @@ const vehicleResolvers: Resolvers = {
       };
     },
     vehicle: async (_, args, context) => {
-      const {
-        input: { regNo },
-      } = args;
+      const { id } = args;
       const { models } = context;
-      return await models.Vehicle.findByPk(regNo);
+      return await models.Vehicle.findByPk(id);
     },
   },
 
@@ -49,26 +47,22 @@ const vehicleResolvers: Resolvers = {
     createVehicle: async (_, args, context) => {
       const { models } = context;
       const {
-        input: { customerId, make, model, regNo, yearsUsed, color },
+        input: { customerId, model, regNo, yearsUsed },
       } = args;
 
       const vehicle = await models.Vehicle.create({
         customerId,
-        make,
         model,
         regNo,
         yearsUsed,
-        color,
       });
 
       return vehicle;
     },
     deleteVehicle: async (_, args, context) => {
       const { models } = context;
-      const {
-        input: { regNo },
-      } = args;
-      return await models.Vehicle.destroy({ where: { regNo } });
+      const { id } = args;
+      return await models.Vehicle.destroy({ where: { id } });
     },
   },
 
