@@ -3,5 +3,4 @@ dist
 .env
 .history
 yarn-error.log
-.eslintrc.js
 src/typings/generated.ts
