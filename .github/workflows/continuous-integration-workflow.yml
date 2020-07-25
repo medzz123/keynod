@@ -42,7 +42,7 @@ jobs:
         # Runs a script that creates a PostgreSQL client, populates
         # the client with data, and retrieves data
         run: |
-          yarn DATABASE_USER=postgres DATABASE_PASSWORD=postgres TEST_DATABASE=postgres IS_TEST=true yarn start &
+          DATABASE_USER=postgres DATABASE_PASSWORD=postgres TEST_DATABASE=postgres IS_TEST=true yarn start &
           sleep 20 &&
           yarn test
         # Environment variable used by the `client.js` script to create a new PostgreSQL client.
