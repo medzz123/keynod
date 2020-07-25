@@ -37,9 +37,7 @@ const partResolver: Resolvers = {
       };
     },
     part: async (_, args, context) => {
-      const {
-        input: { id },
-      } = args;
+      const { id } = args;
       const { models } = context;
       return await models.Part.findByPk(id);
     },
@@ -58,9 +56,7 @@ const partResolver: Resolvers = {
     },
     deletePart: async (_, args, context) => {
       const { models } = context;
-      const {
-        input: { id },
-      } = args;
+      const { id } = args;
       return await models.Part.destroy({ where: { id } });
     },
   },
