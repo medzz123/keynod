@@ -1,0 +1,17 @@
+[
+    {
+        "yearsUsed": 1,
+        "model": "Ford",
+        "customerId": 1
+    },
+    {
+        "yearsUsed": 2,
+        "model": "Tesla",
+        "customerId": 1
+    },
+    {
+        "yearsUsed": 1,
+        "model": "Audi",
+        "customerId": 2
+    }
+]

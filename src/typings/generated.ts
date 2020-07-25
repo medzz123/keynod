@@ -245,6 +245,7 @@ export type Payment = {
   dateSettled?: Maybe<Scalars['String']>;
   job: Job;
   customer: Customer;
+  paymentStatus: PaymentStatus;
 };
 
 export enum TaskStatus {
@@ -317,12 +318,11 @@ export type CreateVehicle = {
   customerId: Scalars['ID'];
   model: Scalars['String'];
   yearsUsed: Scalars['String'];
-  regNo: Scalars['ID'];
 };
 
 export type Vehicle = {
   __typename?: 'Vehicle';
-  regNo: Scalars['ID'];
+  id: Scalars['ID'];
   yearsUsed: Scalars['String'];
   model: Scalars['String'];
   customer: Customer;
@@ -563,6 +563,7 @@ export type PaymentResolvers<ContextType = MyContext, ParentType extends Resolve
   dateSettled?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   job?: Resolver<ResolversTypes['Job'], ParentType, ContextType>;
   customer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType>;
+  paymentStatus?: Resolver<ResolversTypes['PaymentStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -594,7 +595,7 @@ export type UserResolvers<ContextType = MyContext, ParentType extends ResolversP
 };
 
 export type VehicleResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Vehicle'] = ResolversParentTypes['Vehicle']> = {
-  regNo?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   yearsUsed?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   model?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   customer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType>;

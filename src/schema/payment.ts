@@ -23,6 +23,7 @@ const paymentSchema = gql`
     dateSettled: String
     job: Job!
     customer: Customer!
+    paymentStatus: PaymentStatus!
   }
 `;
 

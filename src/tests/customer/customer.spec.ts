@@ -16,6 +16,22 @@ describe('Get customer by id', () => {
       phone: '07412341234',
       email: 'mrFelipe@spoiled.boat',
       address: 'Spoiled Land, Oceanic Floor, Cars',
+      vehicles: [
+        {
+          id: '1',
+          model: 'Ford',
+        },
+        {
+          id: '2',
+          model: 'Tesla',
+        },
+      ],
+      payments: [
+        {
+          id: '2',
+          paymentStatus: 'PENDING',
+        },
+      ],
     });
   });
 });

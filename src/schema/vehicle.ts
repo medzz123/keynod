@@ -14,11 +14,10 @@ const vehicleSchema = gql`
     customerId: ID!
     model: String!
     yearsUsed: String!
-    regNo: ID!
   }
 
   type Vehicle {
-    regNo: ID!
+    id: ID!
     yearsUsed: String!
     model: String!
     customer: Customer!

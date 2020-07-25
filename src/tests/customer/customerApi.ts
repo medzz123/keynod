@@ -14,6 +14,14 @@ export const getCustomer = async (variables: { id: string }) =>
           phone
           email
           address
+          vehicles {
+            id
+            model
+          }
+          payments {
+            id
+            paymentStatus
+          }
         }
       }
     `,
