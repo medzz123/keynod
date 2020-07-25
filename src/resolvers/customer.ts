@@ -22,14 +22,6 @@ const customerResolver: Resolvers = {
 
       return user;
     },
-
-    deleteCustomer: async (_, args, context) => {
-      const { id } = args;
-      const { models } = context;
-      return await models.Customer.destroy({
-        where: { id },
-      });
-    },
   },
 
   Customer: {
