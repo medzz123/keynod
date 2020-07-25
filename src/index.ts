@@ -14,7 +14,6 @@ import { formatError, getMe } from './utils';
 import AuthDirective from './utils/directives/AuthorizationDirective';
 import { environmentVariables } from './utils/env';
 import loaders from './utils/loaders';
-import { seedDatabase } from './utils/seed';
 
 const app = express();
 
@@ -64,10 +63,6 @@ sequelize
     force: environmentVariables.IS_TEST || environmentVariables.IS_PRODUCTION,
   })
   .then(async () => {
-    if (environmentVariables.IS_TEST || environmentVariables.IS_PRODUCTION) {
-      seedDatabase();
-    }
-
     app.listen({ port: environmentVariables.PORT }, () => {
       console.log(
         `Apollo Server running on http://localhost:${environmentVariables.PORT}/`
