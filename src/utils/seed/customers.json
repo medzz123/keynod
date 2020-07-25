@@ -1,0 +1,20 @@
+[
+    {
+        "name": "Mr Felipe Rich",
+        "phone": "07412341234",
+        "email": "mrFelipe@spoiled.boat",
+        "address": "Spoiled Land, Oceanic Floor, Cars"
+    },
+    {
+        "name": "Test Customer",
+        "phone": "07412347890",
+        "email": "test@customer.com",
+        "address": "Test Address, Oceanic Floor, Cars"
+    },
+    {
+        "name": "Fixed Id",
+        "phone": "0799996666",
+        "email": "fixed@id.com",
+        "address": "Fixed ID, Oceanic Floor, Cars"
+    }
+]

@@ -132,7 +132,7 @@ export type MutationUpdatePartArgs = {
 
 export type CreateCustomer = {
   name: Scalars['String'];
-  phone?: Maybe<Scalars['String']>;
+  phone: Scalars['String'];
   email: Scalars['String'];
   address: Scalars['String'];
 };

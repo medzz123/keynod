@@ -1,6 +1,0 @@
-super,MasterKey,sysdba@hello.com,ADMIN
-admin,admin,admin@hello.com,ADMIN
-franchise,bugendo,franchise@hello.com,FRANCHISE
-receptionist,bugendo,receptionist@hello.com,RECEPTIONIST
-mechanic,bugendo,mechanic@hello.com,MECHANIC
-foreperson,bugendo,foreperson@hello.com,FOREPERSON

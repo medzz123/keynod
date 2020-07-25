@@ -17,19 +17,7 @@ const customerResolver: Resolvers = {
     createCustomer: async (_, args, context) => {
       const { input } = args;
       const { models } = context;
-
-      const user = await models.Customer.create({ ...input });
-
-      return user;
-    },
-  },
-
-  Customer: {
-    vehicles: async (customer, _, context) => {
-      const { models } = context;
-      return await models.Vehicle.findAll({
-        where: { customerId: customer.id },
-      });
+      return await models.Customer.create({ ...input });
     },
   },
 };
