@@ -2,17 +2,14 @@ import { gql } from 'apollo-server-express';
 
 const jobSchema = gql`
   extend type Query {
-    jobs(cursor: String, limit: Int): JobConnection!
-      @auth(requires: RECEPTIONIST)
+    jobs: [Job!] @auth(requires: RECEPTIONIST)
     job(id: ID!): Job @auth(requires: MECHANIC)
   }
 
   extend type Mutation {
     createJob(input: CreateJob!): Job! @auth(requires: RECEPTIONIST)
 
-    deleteJob(id: ID!): Boolean! @auth(requires: RECEPTIONIST)
-
-    addMechanic(input: AddMechanic!): Job!
+    assignMechanic(input: AssignMechanic!): Job!
 
     startJob: Job!
 
@@ -30,7 +27,7 @@ const jobSchema = gql`
     MOT
   }
 
-  input AddMechanic {
+  input AssignMechanic {
     jobId: ID!
     userId: ID!
   }
@@ -55,11 +52,6 @@ const jobSchema = gql`
     mechanic: [User!]
     tasks: [Task!]
     payment: Payment!
-  }
-
-  type JobConnection {
-    edges: [Job!]!
-    pageInfo: PageInfo!
   }
 `;
 

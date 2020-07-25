@@ -9,8 +9,6 @@ const customerSchema = gql`
   extend type Mutation {
     createCustomer(input: CreateCustomer!): Customer!
       @auth(requires: RECEPTIONIST)
-
-    deleteCustomer(id: ID!): Boolean! @auth(requires: FOREPERSON)
   }
 
   input CreateCustomer {

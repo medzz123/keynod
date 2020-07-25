@@ -1,40 +1,13 @@
-import Sequelize from 'sequelize';
-
 import { Resolvers } from '../typings/generated';
-import { fromCursorHash, toCursorHash } from '../utils';
 
 const vehicleResolvers: Resolvers = {
   Query: {
     vehicles: async (_, args, context) => {
       const { models } = context;
-      const { cursor, limit = 100 } = args;
 
-      const cursorOptions = cursor
-        ? {
-            where: {
-              createdAt: {
-                [Sequelize.Op.lt]: fromCursorHash(cursor),
-              },
-            },
-          }
-        : {};
+      const vehicles = await models.Vehicle.findAll();
 
-      const vehicles = await models.Vehicle.findAll({
-        order: [['createdAt', 'DESC']],
-        limit: limit + 1,
-        ...cursorOptions,
-      });
-
-      const hasNextPage = vehicles.length > limit;
-      const edges = hasNextPage ? vehicles.slice(0, -1) : vehicles;
-
-      return {
-        edges,
-        pageInfo: {
-          hasNextPage,
-          endCursor: toCursorHash(edges[edges.length - 1].createdAt.toString()),
-        },
-      };
+      return vehicles;
     },
     vehicle: async (_, args, context) => {
       const { id } = args;
@@ -58,11 +31,6 @@ const vehicleResolvers: Resolvers = {
       });
 
       return vehicle;
-    },
-    deleteVehicle: async (_, args, context) => {
-      const { models } = context;
-      const { id } = args;
-      return await models.Vehicle.destroy({ where: { id } });
     },
   },
 

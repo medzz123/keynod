@@ -54,14 +54,6 @@ const userResolver: Resolvers = {
 
       return { token };
     },
-
-    deleteUser: async (_, args, context) => {
-      const { id } = args;
-      const { models } = context;
-      return await models.User.destroy({
-        where: { id },
-      });
-    },
   },
 };
 

@@ -19,16 +19,16 @@ export type Query = {
   customer?: Maybe<Customer>;
   customers?: Maybe<Array<Customer>>;
   job?: Maybe<Job>;
-  jobs: JobConnection;
+  jobs?: Maybe<Array<Job>>;
   me?: Maybe<User>;
   part?: Maybe<Part>;
-  parts: PartConnection;
+  parts?: Maybe<Array<Part>>;
   payment?: Maybe<Payment>;
-  payments: PaymentConnection;
+  payments?: Maybe<Array<Payment>>;
   user?: Maybe<User>;
   users?: Maybe<Array<User>>;
   vehicle?: Maybe<Vehicle>;
-  vehicles: VehicleConnection;
+  vehicles?: Maybe<Array<Vehicle>>;
 };
 
 
@@ -42,31 +42,13 @@ export type QueryJobArgs = {
 };
 
 
-export type QueryJobsArgs = {
-  cursor?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
 export type QueryPartArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryPartsArgs = {
-  cursor?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
 export type QueryPaymentArgs = {
   id: Scalars['ID'];
-};
-
-
-export type QueryPaymentsArgs = {
-  cursor?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
 };
 
 
@@ -79,39 +61,22 @@ export type QueryVehicleArgs = {
   id: Scalars['ID'];
 };
 
-
-export type QueryVehiclesArgs = {
-  cursor?: Maybe<Scalars['String']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   _?: Maybe<Scalars['Boolean']>;
-  addMechanic: Job;
   addTask: Task;
-  assignJob: User;
+  assignMechanic: Job;
   createCustomer: Customer;
   createJob: Job;
   createPart: Part;
   createPayment: Payment;
   createUser: User;
   createVehicle: Vehicle;
-  deleteCustomer: Scalars['Boolean'];
-  deleteJob: Scalars['Boolean'];
-  deletePart: Scalars['Boolean'];
-  deletePayment: Scalars['Boolean'];
-  deleteUser: Scalars['Boolean'];
-  deleteVehicle: Scalars['Boolean'];
   endJob: Job;
   settlePayment: Payment;
   signIn: Token;
   startJob: Job;
-};
-
-
-export type MutationAddMechanicArgs = {
-  input: AddMechanic;
+  updatePart: Part;
 };
 
 
@@ -120,8 +85,8 @@ export type MutationAddTaskArgs = {
 };
 
 
-export type MutationAssignJobArgs = {
-  input: AssignJob;
+export type MutationAssignMechanicArgs = {
+  input: AssignMechanic;
 };
 
 
@@ -136,7 +101,7 @@ export type MutationCreateJobArgs = {
 
 
 export type MutationCreatePartArgs = {
-  input: CreatePartInput;
+  input: CreatePart;
 };
 
 
@@ -155,39 +120,14 @@ export type MutationCreateVehicleArgs = {
 };
 
 
-export type MutationDeleteCustomerArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeleteJobArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeletePartArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeletePaymentArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeleteUserArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeleteVehicleArgs = {
-  id: Scalars['ID'];
-};
-
-
 export type MutationSignInArgs = {
   login: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationUpdatePartArgs = {
+  input: UpdatePart;
 };
 
 export type CreateCustomer = {
@@ -239,7 +179,7 @@ export enum JobType {
   Mot = 'MOT'
 }
 
-export type AddMechanic = {
+export type AssignMechanic = {
   jobId: Scalars['ID'];
   userId: Scalars['ID'];
 };
@@ -267,13 +207,15 @@ export type Job = {
   payment: Payment;
 };
 
-export type JobConnection = {
-  __typename?: 'JobConnection';
-  edges: Array<Job>;
-  pageInfo: PageInfo;
+export type UpdatePart = {
+  name?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  threshold?: Maybe<Scalars['Int']>;
 };
 
-export type CreatePartInput = {
+export type CreatePart = {
   name: Scalars['String'];
   quantity: Scalars['Int'];
   price: Scalars['String'];
@@ -291,12 +233,6 @@ export type Part = {
   threshold: Scalars['Int'];
 };
 
-export type PartConnection = {
-  __typename?: 'PartConnection';
-  edges: Array<Part>;
-  pageInfo: PageInfo;
-};
-
 export enum PaymentStatus {
   Settled = 'SETTLED',
   Pending = 'PENDING'
@@ -309,12 +245,6 @@ export type Payment = {
   dateSettled?: Maybe<Scalars['String']>;
   job: Job;
   customer: Customer;
-};
-
-export type PaymentConnection = {
-  __typename?: 'PaymentConnection';
-  edges: Array<Payment>;
-  pageInfo: PageInfo;
 };
 
 export enum TaskStatus {
@@ -383,11 +313,6 @@ export type CreateUser = {
   password: Scalars['String'];
 };
 
-export type AssignJob = {
-  userId: Scalars['ID'];
-  jobId: Scalars['ID'];
-};
-
 export type CreateVehicle = {
   customerId: Scalars['ID'];
   model: Scalars['String'];
@@ -402,12 +327,6 @@ export type Vehicle = {
   model: Scalars['String'];
   customer: Customer;
   jobs?: Maybe<Array<Job>>;
-};
-
-export type VehicleConnection = {
-  __typename?: 'VehicleConnection';
-  edges: Array<Vehicle>;
-  pageInfo: PageInfo;
 };
 
 
@@ -491,9 +410,8 @@ export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
+  String: ResolverTypeWrapper<Scalars['String']>;
   CreateCustomer: CreateCustomer;
   Customer: ResolverTypeWrapper<Customer>;
   Role: Role;
@@ -501,16 +419,15 @@ export type ResolversTypes = {
   Subscription: ResolverTypeWrapper<{}>;
   JobStatus: JobStatus;
   JobType: JobType;
-  AddMechanic: AddMechanic;
+  AssignMechanic: AssignMechanic;
   CreateJob: CreateJob;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Job: ResolverTypeWrapper<Job>;
-  JobConnection: ResolverTypeWrapper<JobConnection>;
-  CreatePartInput: CreatePartInput;
+  UpdatePart: UpdatePart;
+  CreatePart: CreatePart;
   Part: ResolverTypeWrapper<Part>;
-  PartConnection: ResolverTypeWrapper<PartConnection>;
   PaymentStatus: PaymentStatus;
   Payment: ResolverTypeWrapper<Payment>;
-  PaymentConnection: ResolverTypeWrapper<PaymentConnection>;
   TaskStatus: TaskStatus;
   AddTask: AddTask;
   Task: ResolverTypeWrapper<Task>;
@@ -521,10 +438,8 @@ export type ResolversTypes = {
   Token: ResolverTypeWrapper<Token>;
   User: ResolverTypeWrapper<User>;
   CreateUser: CreateUser;
-  AssignJob: AssignJob;
   CreateVehicle: CreateVehicle;
   Vehicle: ResolverTypeWrapper<Vehicle>;
-  VehicleConnection: ResolverTypeWrapper<VehicleConnection>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -532,22 +447,20 @@ export type ResolversParentTypes = {
   Query: {};
   Boolean: Scalars['Boolean'];
   ID: Scalars['ID'];
-  String: Scalars['String'];
-  Int: Scalars['Int'];
   Mutation: {};
+  String: Scalars['String'];
   CreateCustomer: CreateCustomer;
   Customer: Customer;
   PageInfo: PageInfo;
   Subscription: {};
-  AddMechanic: AddMechanic;
+  AssignMechanic: AssignMechanic;
   CreateJob: CreateJob;
+  Int: Scalars['Int'];
   Job: Job;
-  JobConnection: JobConnection;
-  CreatePartInput: CreatePartInput;
+  UpdatePart: UpdatePart;
+  CreatePart: CreatePart;
   Part: Part;
-  PartConnection: PartConnection;
   Payment: Payment;
-  PaymentConnection: PaymentConnection;
   AddTask: AddTask;
   Task: Task;
   PartUsedInput: PartUsedInput;
@@ -555,10 +468,8 @@ export type ResolversParentTypes = {
   Token: Token;
   User: User;
   CreateUser: CreateUser;
-  AssignJob: AssignJob;
   CreateVehicle: CreateVehicle;
   Vehicle: Vehicle;
-  VehicleConnection: VehicleConnection;
 };
 
 export type AuthDirectiveArgs = {   requires?: Maybe<Role>; };
@@ -570,39 +481,33 @@ export type QueryResolvers<ContextType = MyContext, ParentType extends Resolvers
   customer?: Resolver<Maybe<ResolversTypes['Customer']>, ParentType, ContextType, RequireFields<QueryCustomerArgs, 'id'>>;
   customers?: Resolver<Maybe<Array<ResolversTypes['Customer']>>, ParentType, ContextType>;
   job?: Resolver<Maybe<ResolversTypes['Job']>, ParentType, ContextType, RequireFields<QueryJobArgs, 'id'>>;
-  jobs?: Resolver<ResolversTypes['JobConnection'], ParentType, ContextType, RequireFields<QueryJobsArgs, never>>;
+  jobs?: Resolver<Maybe<Array<ResolversTypes['Job']>>, ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   part?: Resolver<Maybe<ResolversTypes['Part']>, ParentType, ContextType, RequireFields<QueryPartArgs, 'id'>>;
-  parts?: Resolver<ResolversTypes['PartConnection'], ParentType, ContextType, RequireFields<QueryPartsArgs, never>>;
+  parts?: Resolver<Maybe<Array<ResolversTypes['Part']>>, ParentType, ContextType>;
   payment?: Resolver<Maybe<ResolversTypes['Payment']>, ParentType, ContextType, RequireFields<QueryPaymentArgs, 'id'>>;
-  payments?: Resolver<ResolversTypes['PaymentConnection'], ParentType, ContextType, RequireFields<QueryPaymentsArgs, never>>;
+  payments?: Resolver<Maybe<Array<ResolversTypes['Payment']>>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   users?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>;
   vehicle?: Resolver<Maybe<ResolversTypes['Vehicle']>, ParentType, ContextType, RequireFields<QueryVehicleArgs, 'id'>>;
-  vehicles?: Resolver<ResolversTypes['VehicleConnection'], ParentType, ContextType, RequireFields<QueryVehiclesArgs, never>>;
+  vehicles?: Resolver<Maybe<Array<ResolversTypes['Vehicle']>>, ParentType, ContextType>;
 };
 
 export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  addMechanic?: Resolver<ResolversTypes['Job'], ParentType, ContextType, RequireFields<MutationAddMechanicArgs, 'input'>>;
   addTask?: Resolver<ResolversTypes['Task'], ParentType, ContextType, RequireFields<MutationAddTaskArgs, 'input'>>;
-  assignJob?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationAssignJobArgs, 'input'>>;
+  assignMechanic?: Resolver<ResolversTypes['Job'], ParentType, ContextType, RequireFields<MutationAssignMechanicArgs, 'input'>>;
   createCustomer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType, RequireFields<MutationCreateCustomerArgs, 'input'>>;
   createJob?: Resolver<ResolversTypes['Job'], ParentType, ContextType, RequireFields<MutationCreateJobArgs, 'input'>>;
   createPart?: Resolver<ResolversTypes['Part'], ParentType, ContextType, RequireFields<MutationCreatePartArgs, 'input'>>;
   createPayment?: Resolver<ResolversTypes['Payment'], ParentType, ContextType, RequireFields<MutationCreatePaymentArgs, 'jobId'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   createVehicle?: Resolver<ResolversTypes['Vehicle'], ParentType, ContextType, RequireFields<MutationCreateVehicleArgs, 'input'>>;
-  deleteCustomer?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteCustomerArgs, 'id'>>;
-  deleteJob?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteJobArgs, 'id'>>;
-  deletePart?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeletePartArgs, 'id'>>;
-  deletePayment?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeletePaymentArgs, 'id'>>;
-  deleteUser?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
-  deleteVehicle?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteVehicleArgs, 'id'>>;
   endJob?: Resolver<ResolversTypes['Job'], ParentType, ContextType>;
   settlePayment?: Resolver<ResolversTypes['Payment'], ParentType, ContextType>;
   signIn?: Resolver<ResolversTypes['Token'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'login' | 'password'>>;
   startJob?: Resolver<ResolversTypes['Job'], ParentType, ContextType>;
+  updatePart?: Resolver<ResolversTypes['Part'], ParentType, ContextType, RequireFields<MutationUpdatePartArgs, 'input'>>;
 };
 
 export type CustomerResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Customer'] = ResolversParentTypes['Customer']> = {
@@ -642,12 +547,6 @@ export type JobResolvers<ContextType = MyContext, ParentType extends ResolversPa
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type JobConnectionResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['JobConnection'] = ResolversParentTypes['JobConnection']> = {
-  edges?: Resolver<Array<ResolversTypes['Job']>, ParentType, ContextType>;
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
 export type PartResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Part'] = ResolversParentTypes['Part']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -658,24 +557,12 @@ export type PartResolvers<ContextType = MyContext, ParentType extends ResolversP
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type PartConnectionResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['PartConnection'] = ResolversParentTypes['PartConnection']> = {
-  edges?: Resolver<Array<ResolversTypes['Part']>, ParentType, ContextType>;
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
 export type PaymentResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Payment'] = ResolversParentTypes['Payment']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   amount?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   dateSettled?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   job?: Resolver<ResolversTypes['Job'], ParentType, ContextType>;
   customer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
-export type PaymentConnectionResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['PaymentConnection'] = ResolversParentTypes['PaymentConnection']> = {
-  edges?: Resolver<Array<ResolversTypes['Payment']>, ParentType, ContextType>;
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -715,12 +602,6 @@ export type VehicleResolvers<ContextType = MyContext, ParentType extends Resolve
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type VehicleConnectionResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['VehicleConnection'] = ResolversParentTypes['VehicleConnection']> = {
-  edges?: Resolver<Array<ResolversTypes['Vehicle']>, ParentType, ContextType>;
-  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
 export type Resolvers<ContextType = MyContext> = {
   Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
@@ -728,17 +609,13 @@ export type Resolvers<ContextType = MyContext> = {
   PageInfo?: PageInfoResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   Job?: JobResolvers<ContextType>;
-  JobConnection?: JobConnectionResolvers<ContextType>;
   Part?: PartResolvers<ContextType>;
-  PartConnection?: PartConnectionResolvers<ContextType>;
   Payment?: PaymentResolvers<ContextType>;
-  PaymentConnection?: PaymentConnectionResolvers<ContextType>;
   Task?: TaskResolvers<ContextType>;
   PartUsed?: PartUsedResolvers<ContextType>;
   Token?: TokenResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   Vehicle?: VehicleResolvers<ContextType>;
-  VehicleConnection?: VehicleConnectionResolvers<ContextType>;
 };
 
 
