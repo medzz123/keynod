@@ -5,8 +5,15 @@ generates:
     config: 
       contextType: ./types#MyContext
       mappers:
+        Part: ./types#PartModel
         Customer: ./types#CustomerModel
+        User: ./types#UserModel
         Vehicle: ./types#VehicleModel
+        JobManager: ./types#JobManagerModel
+        Task: ./types#TaskModel
+        PartsUsed: ./types#PartsUsedModel
+        Job: ./types#JobModel
+        Payment: ./types#PaymentModel
     plugins:
       - typescript
       - typescript-resolvers

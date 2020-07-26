@@ -3,7 +3,7 @@ import { BuildOptions, DataTypes, Model } from 'sequelize';
 import sequelize from '../db';
 import PartsUsed from './partsUsed';
 
-class Part extends Model {
+export class Part extends Model {
   public name: string;
   public quantity: number;
   public price: string;
