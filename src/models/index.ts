@@ -7,6 +7,7 @@ import Payment, { PaymentModelStatic } from './payment';
 import Task, { TaskModelStatic } from './task';
 import User, { UserModelStatic } from './user';
 import Vehicle, { VehicleModelStatic } from './vehicle';
+
 export default {
   Part,
   Customer,

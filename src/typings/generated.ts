@@ -1,7 +1,8 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { MyContext } from './types';
+import { CustomerModel, VehicleModel, MyContext } from './types';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -318,11 +319,12 @@ export type CreateVehicle = {
   customerId: Scalars['ID'];
   model: Scalars['String'];
   yearsUsed: Scalars['String'];
+  regNo: Scalars['ID'];
 };
 
 export type Vehicle = {
   __typename?: 'Vehicle';
-  id: Scalars['ID'];
+  regNo: Scalars['ID'];
   yearsUsed: Scalars['String'];
   model: Scalars['String'];
   customer: Customer;
@@ -413,7 +415,7 @@ export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   CreateCustomer: CreateCustomer;
-  Customer: ResolverTypeWrapper<Customer>;
+  Customer: ResolverTypeWrapper<CustomerModel>;
   Role: Role;
   PageInfo: ResolverTypeWrapper<PageInfo>;
   Subscription: ResolverTypeWrapper<{}>;
@@ -422,12 +424,12 @@ export type ResolversTypes = {
   AssignMechanic: AssignMechanic;
   CreateJob: CreateJob;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  Job: ResolverTypeWrapper<Job>;
+  Job: ResolverTypeWrapper<Omit<Job, 'vehicle' | 'mechanic' | 'payment'> & { vehicle: ResolversTypes['Vehicle'], mechanic?: Maybe<Array<ResolversTypes['User']>>, payment: ResolversTypes['Payment'] }>;
   UpdatePart: UpdatePart;
   CreatePart: CreatePart;
   Part: ResolverTypeWrapper<Part>;
   PaymentStatus: PaymentStatus;
-  Payment: ResolverTypeWrapper<Payment>;
+  Payment: ResolverTypeWrapper<Omit<Payment, 'job' | 'customer'> & { job: ResolversTypes['Job'], customer: ResolversTypes['Customer'] }>;
   TaskStatus: TaskStatus;
   AddTask: AddTask;
   Task: ResolverTypeWrapper<Task>;
@@ -436,10 +438,10 @@ export type ResolversTypes = {
   UserRoleInput: UserRoleInput;
   UserRole: UserRole;
   Token: ResolverTypeWrapper<Token>;
-  User: ResolverTypeWrapper<User>;
+  User: ResolverTypeWrapper<Omit<User, 'jobs'> & { jobs?: Maybe<Array<ResolversTypes['Job']>> }>;
   CreateUser: CreateUser;
   CreateVehicle: CreateVehicle;
-  Vehicle: ResolverTypeWrapper<Vehicle>;
+  Vehicle: ResolverTypeWrapper<VehicleModel>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -450,26 +452,26 @@ export type ResolversParentTypes = {
   Mutation: {};
   String: Scalars['String'];
   CreateCustomer: CreateCustomer;
-  Customer: Customer;
+  Customer: CustomerModel;
   PageInfo: PageInfo;
   Subscription: {};
   AssignMechanic: AssignMechanic;
   CreateJob: CreateJob;
   Int: Scalars['Int'];
-  Job: Job;
+  Job: Omit<Job, 'vehicle' | 'mechanic' | 'payment'> & { vehicle: ResolversParentTypes['Vehicle'], mechanic?: Maybe<Array<ResolversParentTypes['User']>>, payment: ResolversParentTypes['Payment'] };
   UpdatePart: UpdatePart;
   CreatePart: CreatePart;
   Part: Part;
-  Payment: Payment;
+  Payment: Omit<Payment, 'job' | 'customer'> & { job: ResolversParentTypes['Job'], customer: ResolversParentTypes['Customer'] };
   AddTask: AddTask;
   Task: Task;
   PartUsedInput: PartUsedInput;
   PartUsed: PartUsed;
   Token: Token;
-  User: User;
+  User: Omit<User, 'jobs'> & { jobs?: Maybe<Array<ResolversParentTypes['Job']>> };
   CreateUser: CreateUser;
   CreateVehicle: CreateVehicle;
-  Vehicle: Vehicle;
+  Vehicle: VehicleModel;
 };
 
 export type AuthDirectiveArgs = {   requires?: Maybe<Role>; };
@@ -595,7 +597,7 @@ export type UserResolvers<ContextType = MyContext, ParentType extends ResolversP
 };
 
 export type VehicleResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Vehicle'] = ResolversParentTypes['Vehicle']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  regNo?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   yearsUsed?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   model?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   customer?: Resolver<ResolversTypes['Customer'], ParentType, ContextType>;

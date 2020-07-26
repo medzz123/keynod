@@ -3,6 +3,9 @@ import { Customer } from '../models/customer';
 import { User } from '../models/user';
 import { Vehicle } from '../models/vehicle';
 
+export type CustomerModel = Customer;
+export type VehicleModel = Vehicle;
+
 export interface MyContext {
   secret: string;
   me: User;

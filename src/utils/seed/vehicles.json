@@ -2,16 +2,19 @@
     {
         "yearsUsed": 1,
         "model": "Ford",
-        "customerId": 1
+        "customerId": 1,
+        "regNo": "BDF41V"
     },
     {
         "yearsUsed": 2,
         "model": "Tesla",
-        "customerId": 1
+        "customerId": 1,
+        "regNo": "AB2CPY"
     },
     {
         "yearsUsed": 1,
         "model": "Audi",
-        "customerId": 2
+        "customerId": 2,
+        "regNo": "ACK2PA"
     }
 ]

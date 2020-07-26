@@ -4,6 +4,9 @@ generates:
   ./src/typings/generated.ts:
     config: 
       contextType: ./types#MyContext
+      mappers:
+        Customer: ./types#CustomerModel
+        Vehicle: ./types#VehicleModel
     plugins:
       - typescript
       - typescript-resolvers

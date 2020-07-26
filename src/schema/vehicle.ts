@@ -2,22 +2,23 @@ import { gql } from 'apollo-server-express';
 
 const vehicleSchema = gql`
   extend type Query {
-    vehicles: [Vehicle!] @auth(requires: RECEPTIONIST)
-    vehicle(id: ID!): Vehicle @auth(requires: MECHANIC)
+    vehicles: [Vehicle!]
+    vehicle(id: ID!): Vehicle
   }
 
   extend type Mutation {
-    createVehicle(input: CreateVehicle!): Vehicle! @auth(requires: RECEPTIONIST)
+    createVehicle(input: CreateVehicle!): Vehicle!
   }
 
   input CreateVehicle {
     customerId: ID!
     model: String!
     yearsUsed: String!
+    regNo: ID!
   }
 
   type Vehicle {
-    id: ID!
+    regNo: ID!
     yearsUsed: String!
     model: String!
     customer: Customer!

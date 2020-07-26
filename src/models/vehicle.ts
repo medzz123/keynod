@@ -6,9 +6,9 @@ import Job from './job';
 export class Vehicle extends Model {
   public model: string;
   public yearsUsed: number;
+  public regNo: string;
 
   // Generated
-  public readonly id: string;
   public readonly createdAt: Date;
   public readonly updatedAt: Date;
 
@@ -18,6 +18,10 @@ export class Vehicle extends Model {
 
 Vehicle.init(
   {
+    regNo: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
     model: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -18,17 +18,16 @@ describe('Get customer by id', () => {
       address: 'Spoiled Land, Oceanic Floor, Cars',
       vehicles: [
         {
-          id: '1',
+          regNo: 'BDF41V',
           model: 'Ford',
         },
         {
-          id: '2',
+          regNo: 'AB2CPY',
           model: 'Tesla',
         },
       ],
       payments: [
         {
-          id: '2',
           paymentStatus: 'PENDING',
         },
       ],

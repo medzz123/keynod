@@ -20,13 +20,14 @@ const vehicleResolvers: Resolvers = {
     createVehicle: async (_, args, context) => {
       const { models } = context;
       const {
-        input: { customerId, model, yearsUsed },
+        input: { customerId, model, regNo, yearsUsed },
       } = args;
 
       const vehicle = await models.Vehicle.create({
         customerId,
         model,
         yearsUsed,
+        regNo,
       });
 
       return vehicle;
@@ -36,7 +37,6 @@ const vehicleResolvers: Resolvers = {
   Vehicle: {
     customer: async (vehicle, _, context) => {
       const { loaders } = context;
-      // @ts-ignore
       return await loaders.customer.load(vehicle.customerId);
     },
   },

@@ -15,11 +15,10 @@ export const getCustomer = async (variables: { id: string }) =>
           email
           address
           vehicles {
-            id
+            regNo
             model
           }
           payments {
-            id
             paymentStatus
           }
         }
